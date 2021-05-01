@@ -1,4 +1,4 @@
-<h1 align="center">Digital Green Certificate Gateway Client</h1>
+<h1 align="center">EU COVID-19 Certificate Verifier Service</h1>
 
 <div align="center">
 <img width="256" height="256" src="img/logo.png">
