@@ -17,7 +17,17 @@ package it.interop.eucert.verifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+
 @SpringBootApplication
+@OpenAPIDefinition(
+	    info = @Info(
+	        title = "EU COVID-19 certificate - verifier service API",
+	        description = "The API defines how to exchange verification information for EU COVID-19 certificates.",
+	        version = "1.0.0"
+	    )
+	)
 public class DgcVerifierApplication {
 
 	public static void main(String[] args) {
