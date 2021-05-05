@@ -18,7 +18,7 @@
  * ---license-end
  */
 
-package it.interop.eucert.verifier.controller;
+package it.interop.dgc.verifier.controller;
 
 import java.util.List;
 
@@ -38,8 +38,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import it.interop.eucert.verifier.entity.SignerInformationEntity;
-import it.interop.eucert.verifier.service.SignerInformationService;
+import it.interop.dgc.verifier.entity.SignerInformationEntity;
+import it.interop.dgc.verifier.service.SignerInformationService;
 import lombok.RequiredArgsConstructor;
 
 

@@ -3,8 +3,8 @@ version: '3'
 services:
   backend:
     build: .
-    image: it-eucert-verifier-service/client
-    container_name: it-eucert-eucert-verifier
+    image: it-dgc-verifier-service/client
+    container_name: it-dgc-verifier
     ports:
       - 8080:8080
     environment:
@@ -20,7 +20,7 @@ services:
       - SSLDP_JKS_PASSWORD=password
       - SSLDP_CERT_PASSWORD=password
       - EFGS_BASE_URL=https://acc-efgs-ws.tech.ec.europa.eu
-      - SSLEFGS_JKS_PATH=/security/sslclient/ssleucert.jks
+      - SSLEFGS_JKS_PATH=/security/sslclient/ssldgc.jks
       - SSLEFGS_JKS_PASSWORD=password
       - SSLEFGS_CERT_PASSWORD=password
       - TRUST_JKS_PATH=/security/truststore/truststore.jks
@@ -29,7 +29,7 @@ services:
     volumes:
       - c:\security\sslclient:/security/sslclient
       - c:\security\truststore:/security/truststore
-      - c:\it-eucert-verifier-service\config:/it-eucert-verifier-service/config
+      - c:\it-dgc-verifier-service\config:/it-dgc-verifier-service/config
     networks:
       backend:
       persistence:

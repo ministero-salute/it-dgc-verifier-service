@@ -18,9 +18,9 @@
  * ---license-end
  */
 
-package it.interop.eucert.verifier.testdata;
+package it.interop.dgc.verifier.testdata;
 
-import it.interop.eucert.verifier.entity.SignerInformationEntity;
+import it.interop.dgc.verifier.entity.SignerInformationEntity;
 
 public class SignerInformationTestHelper {
 

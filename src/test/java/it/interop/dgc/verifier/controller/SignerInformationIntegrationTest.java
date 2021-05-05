@@ -18,7 +18,7 @@
  * ---license-end
  */
 
-package it.interop.eucert.verifier.controller;
+package it.interop.dgc.verifier.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -42,8 +42,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import it.interop.eucert.verifier.entity.SignerInformationEntity;
-import it.interop.eucert.verifier.testdata.SignerInformationTestHelper;
+import it.interop.dgc.verifier.entity.SignerInformationEntity;
+import it.interop.dgc.verifier.testdata.SignerInformationTestHelper;
 
 @AutoConfigureMockMvc
 @AutoConfigureDataMongo

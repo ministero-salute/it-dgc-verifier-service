@@ -12,7 +12,7 @@
  *   You should have received a copy of the GNU Affero General Public License
  *   along with this program. If not, see <https://www.gnu.org/licenses/>.   
  */
-package it.interop.eucert.verifier;
+package it.interop.dgc.verifier;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

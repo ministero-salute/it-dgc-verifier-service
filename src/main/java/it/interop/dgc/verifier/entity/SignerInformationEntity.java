@@ -18,7 +18,7 @@
  * ---license-end
  */
 
-package it.interop.eucert.verifier.entity;
+package it.interop.dgc.verifier.entity;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
