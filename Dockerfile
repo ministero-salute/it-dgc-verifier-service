@@ -23,7 +23,7 @@ RUN useradd \
         --home /it-dgc-verifier-service \
         --shell /bin/bash \
         gdc \
-    && chown --recursive uecert:root /it-dgc-verifier-service \   
+    && chown --recursive dgc:root /it-dgc-verifier-service \   
     && chmod -R g+rwx /it-dgc-verifier-service
 USER dgc
 

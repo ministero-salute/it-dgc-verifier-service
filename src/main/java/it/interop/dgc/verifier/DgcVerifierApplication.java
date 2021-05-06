@@ -23,8 +23,8 @@ import io.swagger.v3.oas.annotations.info.Info;
 @SpringBootApplication
 @OpenAPIDefinition(
 	    info = @Info(
-	        title = "EU COVID-19 certificate - verifier service API",
-	        description = "The API defines how to exchange verification information for EU COVID-19 certificates.",
+	        title = "DGC Verifier Service API",
+	        description = "The API defines how to exchange verification information for the Digital Green Certificates.",
 	        version = "1.0.0"
 	    )
 	)
