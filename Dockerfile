@@ -22,7 +22,7 @@ RUN useradd \
         --no-log-init \
         --home /it-dgc-verifier-service \
         --shell /bin/bash \
-        gdc \
+        dgc \
     && chown --recursive dgc:root /it-dgc-verifier-service \   
     && chmod -R g+rwx /it-dgc-verifier-service
 USER dgc
