@@ -18,7 +18,7 @@
  * ---license-end
  */
 
-package it.interop.eucert.verifier.service;
+package it.interop.dgc.verifier.service;
 
 
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import it.interop.eucert.verifier.entity.SignerInformationEntity;
-import it.interop.eucert.verifier.repository.SignerInformationRepository;
+import it.interop.dgc.verifier.entity.SignerInformationEntity;
+import it.interop.dgc.verifier.repository.SignerInformationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

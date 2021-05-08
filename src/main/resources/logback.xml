@@ -2,7 +2,7 @@
 <configuration>
 
 	<property name="LOGS" value="${APP_LOGGING_ROOT:-application-log}/logs" />
-	<property name="FILE_NAME" value="eucert-verifier" />
+	<property name="FILE_NAME" value="dgc-verifier" />
 
 	<springProperty scope="context" name="springAppName"
 		source="spring.application.name" />

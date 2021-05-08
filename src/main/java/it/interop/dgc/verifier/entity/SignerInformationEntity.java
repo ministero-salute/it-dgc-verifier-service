@@ -18,19 +18,19 @@
  * ---license-end
  */
 
-package it.interop.eucert.verifier.entity;
-
-import java.time.ZonedDateTime;
+package it.interop.dgc.verifier.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
 @Document(collection = "signer_information")
+@AllArgsConstructor
+@NoArgsConstructor
 public class SignerInformationEntity {
 
 	@Field(name = "id")
@@ -41,12 +41,6 @@ public class SignerInformationEntity {
      */
     @Field(name = "kid")
     private String kid;
-
-    /**
-     * Timestamp of the Record creation.
-     */
-    @Field(name = "created_at")
-    private ZonedDateTime createdAt = ZonedDateTime.now();
 
     /**
      * Base64 encoded certificate raw data.

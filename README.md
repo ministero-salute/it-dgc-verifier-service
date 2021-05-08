@@ -1,4 +1,4 @@
-<h1 align="center">Digital Green Certificate Gateway Client</h1>
+<h1 align="center">EU COVID-19 Certificate Verifier Service</h1>
 
 <div align="center">
 <img width="256" height="256" src="img/logo.png">
@@ -54,8 +54,8 @@ This project also supports building a Docker image.
 To build the Docker image you need to build the project from the root:
 
 ```shell script
-git clone git@github.com:ministero-salute/it-eucert-verifier-service.git
-cd it-eucert-verifier-service
+git clone git@github.com:ministero-salute/it-dgc-verifier-service.git
+cd it-dgc-verifier-service
 mvn clean package
 ```
 For local testing first ensure you have a MongoDB instance running locally, then fill the envar in the enviroment section of the ``docker-compose.yml``:

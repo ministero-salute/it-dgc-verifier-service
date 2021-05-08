@@ -12,12 +12,22 @@
  *   You should have received a copy of the GNU Affero General Public License
  *   along with this program. If not, see <https://www.gnu.org/licenses/>.   
  */
-package it.interop.eucert.verifier;
+package it.interop.dgc.verifier;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+
 @SpringBootApplication
+@OpenAPIDefinition(
+	    info = @Info(
+	        title = "DGC Verifier Service API",
+	        description = "The API defines how to exchange verification information for the Digital Green Certificates.",
+	        version = "1.0.0"
+	    )
+	)
 public class DgcVerifierApplication {
 
 	public static void main(String[] args) {

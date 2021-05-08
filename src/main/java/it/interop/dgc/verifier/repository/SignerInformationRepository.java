@@ -12,7 +12,7 @@
  *   You should have received a copy of the GNU Affero General Public License
  *   along with this program. If not, see <https://www.gnu.org/licenses/>.   
  */
-package it.interop.eucert.verifier.repository;
+package it.interop.dgc.verifier.repository;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import it.interop.eucert.verifier.entity.SignerInformationEntity;
+import it.interop.dgc.verifier.entity.SignerInformationEntity;
 
 @Repository
 public class SignerInformationRepository {

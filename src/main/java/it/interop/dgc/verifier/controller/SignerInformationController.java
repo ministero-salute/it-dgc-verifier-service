@@ -18,7 +18,7 @@
  * ---license-end
  */
 
-package it.interop.eucert.verifier.controller;
+package it.interop.dgc.verifier.controller;
 
 import java.util.List;
 
@@ -38,13 +38,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import it.interop.eucert.verifier.entity.SignerInformationEntity;
-import it.interop.eucert.verifier.service.SignerInformationService;
+import it.interop.dgc.verifier.entity.SignerInformationEntity;
+import it.interop.dgc.verifier.service.SignerInformationService;
 import lombok.RequiredArgsConstructor;
 
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/v1/dgc/signercertificate")
 @RequiredArgsConstructor
 public class SignerInformationController {
 
@@ -57,7 +57,7 @@ public class SignerInformationController {
     /**
      * Http Method for getting signer certificate.
      */
-    @GetMapping(path = "/signercertificateUpdate", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(path = "/update", produces = MediaType.TEXT_PLAIN_VALUE)
     @Operation(
         summary = "Gets one signer certificate.",
         tags = {"Signer Information"},
@@ -113,7 +113,7 @@ public class SignerInformationController {
     /**
      * Http Method for getting list of valid certificates ids.
      */
-    @GetMapping(path = "/signercertificateStatus", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/status", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
         summary = "Gets list of kids from all valid certificates.",
         tags = {"Signer Information"},
