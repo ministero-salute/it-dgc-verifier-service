@@ -1,0 +1,49 @@
+name: ministero-salute.it-dgc-verifier-service
+
+trigger:
+  branches:
+    include:
+    - master
+    - develop
+    - feature/*
+    - releases/*
+pr:
+  branches:
+    include:
+    - master
+    - develop
+    - releases/*
+
+pool:
+  pool: Azure Pipelines
+
+resources:
+  containers:
+  - container: mongo
+    image: mongo
+    ports:
+    - 27017:27017
+
+services:
+  mongo: mongo
+
+steps:
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    codeCoverageToolOption: 'JaCoCo'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.11'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+- task: BuildQualityChecks@8
+  inputs:
+    checkCoverage: true
+    coverageFailOption: 'fixed'
+    coverageType: 'lines'
+    coverageThreshold: '80'
