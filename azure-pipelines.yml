@@ -34,5 +34,6 @@ steps:
   inputs:
     checkCoverage: true
     coverageFailOption: 'fixed'
-    coverageType: 'lines'
-    coverageThreshold: '80'
+    coverageType: 'custom'
+    customCoverageType: 'Instruction'
+    coverageThreshold: '70'
