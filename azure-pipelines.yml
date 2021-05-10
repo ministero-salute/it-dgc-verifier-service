@@ -1,7 +1,7 @@
 name: ministero-salute.it-dgc-verifier-service
 
 trigger:
-- none
+- azure-pipelines
 
 pool:
   pool: Azure Pipelines
@@ -35,4 +35,4 @@ steps:
     checkCoverage: true
     coverageFailOption: 'fixed'
     coverageType: 'lines'
-    coverageThreshold: '100'
+    coverageThreshold: '80'
