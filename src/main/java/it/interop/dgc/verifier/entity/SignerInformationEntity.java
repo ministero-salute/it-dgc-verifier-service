@@ -23,6 +23,7 @@ package it.interop.dgc.verifier.entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import it.interop.dgc.verifier.enums.CertificateType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,6 +48,12 @@ public class SignerInformationEntity {
      */
     @Field(name = "raw_data")
     String rawData;
+    
+    /**
+     * CertificateType enums.
+     */
+    @Field(name = "certificate_type")
+    private CertificateType certificateType;
     
     /**
      * Revoked flag

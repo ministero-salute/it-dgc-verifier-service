@@ -21,6 +21,7 @@
 package it.interop.dgc.verifier.testdata;
 
 import it.interop.dgc.verifier.entity.SignerInformationEntity;
+import it.interop.dgc.verifier.enums.CertificateType;
 
 public class SignerInformationTestHelper {
 
@@ -91,13 +92,13 @@ public class SignerInformationTestHelper {
 
 		switch (kid) {
 		case TEST_CERT_1_KID:
-			entity = new SignerInformationEntity(TEST_CERT_1_RESUME_TOKEN, TEST_CERT_1_KID, TEST_CERT_1_STR, false);
+			entity = new SignerInformationEntity(TEST_CERT_1_RESUME_TOKEN, TEST_CERT_1_KID, TEST_CERT_1_STR, CertificateType.DSC, false);
 			break;
 		case TEST_CERT_2_KID:
-			entity = new SignerInformationEntity(TEST_CERT_2_RESUME_TOKEN, TEST_CERT_2_KID, TEST_CERT_2_STR, false);
+			entity = new SignerInformationEntity(TEST_CERT_2_RESUME_TOKEN, TEST_CERT_2_KID, TEST_CERT_2_STR, CertificateType.DSC, false);
 			break;
 		case TEST_CERT_3_KID:
-			entity = new SignerInformationEntity(TEST_CERT_3_RESUME_TOKEN, TEST_CERT_3_KID, TEST_CERT_3_STR, false);
+			entity = new SignerInformationEntity(TEST_CERT_3_RESUME_TOKEN, TEST_CERT_3_KID, TEST_CERT_3_STR, CertificateType.DSC, false);
 			break;
 		}
 		return entity;
