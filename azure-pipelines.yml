@@ -50,7 +50,7 @@ steps:
     
 - task: SonarQubePrepare@4
   inputs:
-    SonarQube: 'SonarQubeAzure-mnelli'
+    SonarQube: 'SonarQubeAzure-temp'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: '$(System.TeamProject)_it-dgc-verifier-service'
@@ -61,9 +61,15 @@ steps:
       # Put one key=value per line, example:
       # sonar.exclusions=**/*.bin
       sonar.java.binaries=.
+  condition: 
+    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: SonarQubeAnalyze@4
+  condition: 
+    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: SonarQubePublish@4
   inputs:
     pollingTimeoutSec: '300'
+  condition: 
+    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
