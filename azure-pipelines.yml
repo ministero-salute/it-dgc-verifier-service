@@ -56,3 +56,9 @@ steps:
     cliProjectKey: '$(System.TeamProject)_$(Build.Repository.Name))'
     cliProjectName: '$(System.TeamProject)_$(Build.Repository.Name)'
     cliSources: '.'
+
+- task: SonarQubeAnalyze@4
+
+- task: SonarQubePublish@4
+  inputs:
+    pollingTimeoutSec: '300'
