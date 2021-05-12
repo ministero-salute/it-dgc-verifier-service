@@ -47,3 +47,11 @@ steps:
     coverageFailOption: 'fixed'
     coverageType: 'lines'
     coverageThreshold: '80'
+    
+- task: SonarQubePrepare@4
+  inputs:
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '$(System.TeamProject)_$(Build.Repository.Name))'
+    cliProjectName: '$(System.TeamProject)_$(Build.Repository.Name)'
+    cliSources: '.'
