@@ -50,6 +50,7 @@ steps:
     
 - task: SonarQubePrepare@4
   inputs:
+    SonarQube: 'SonarQubeAzure-mnelli'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: '$(System.TeamProject)_$(Build.Repository.Name))'
