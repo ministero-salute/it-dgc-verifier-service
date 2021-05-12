@@ -47,3 +47,18 @@ steps:
     coverageFailOption: 'fixed'
     coverageType: 'lines'
     coverageThreshold: '80'
+    
+- task: SonarQubePrepare@4
+  inputs:
+    SonarQube: 'SonarQubeAzure-mnelli'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '$(System.TeamProject)_it-dgc-verifier-service'
+    cliProjectName: '$(System.TeamProject)_it-dgc-verifier-service'
+    cliSources: '.'
+
+- task: SonarQubeAnalyze@4
+
+- task: SonarQubePublish@4
+  inputs:
+    pollingTimeoutSec: '300'
