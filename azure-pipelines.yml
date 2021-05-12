@@ -53,7 +53,7 @@ steps:
     SonarQube: 'SonarQubeAzure-mnelli'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: '$(System.TeamProject)_$(Build.Repository.Name))'
+    cliProjectKey: '$(System.TeamProject)_$(Build.Repository.Name)'
     cliProjectName: '$(System.TeamProject)_$(Build.Repository.Name)'
     cliSources: '.'
 
