@@ -41,12 +41,12 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/v1/dgc")
 @RequiredArgsConstructor
-public class ConfigsController {
+public class SettingsController {
     
     /**
      * Http Method for getting the italian business rules.
      */
-    @GetMapping(path = "/configs", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/settings", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
         summary = "Gets list of italian business rules.",
         tags = {"Business Rules"},
@@ -61,7 +61,7 @@ public class ConfigsController {
                     )
             )
         })
-    public ResponseEntity<List<String>> getConfigs() {
+    public ResponseEntity<List<String>> getSettings() {
 
         return ResponseEntity.ok(new ArrayList<String>());
     }
