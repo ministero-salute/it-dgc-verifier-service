@@ -56,6 +56,11 @@ steps:
     cliProjectKey: '$(System.TeamProject)_it-dgc-verifier-service'
     cliProjectName: '$(System.TeamProject)_it-dgc-verifier-service'
     cliSources: '.'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      # sonar.exclusions=**/*.bin
+      sonar.java.binaries=.
 
 - task: SonarQubeAnalyze@4
 
