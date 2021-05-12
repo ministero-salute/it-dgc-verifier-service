@@ -53,8 +53,8 @@ steps:
     SonarQube: 'SonarQubeAzure-mnelli'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: '$(System.TeamProject)_$(Build.Repository.Name)'
-    cliProjectName: '$(System.TeamProject)_$(Build.Repository.Name)'
+    cliProjectKey: '$(System.TeamProject)_it-dgc-verifier-service'
+    cliProjectName: '$(System.TeamProject)_it-dgc-verifier-service'
     cliSources: '.'
 
 - task: SonarQubeAnalyze@4
