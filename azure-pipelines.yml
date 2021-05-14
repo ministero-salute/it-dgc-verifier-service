@@ -27,6 +27,8 @@ resources:
 services:
   mongo: mongo
 
+workspace:
+  clean: all
 steps:
 - task: Maven@3
   inputs:
@@ -55,6 +57,7 @@ steps:
     configMode: 'manual'
     cliProjectKey: '$(System.TeamProject)_it-dgc-verifier-service'
     cliProjectName: '$(System.TeamProject)_it-dgc-verifier-service'
+    cliProjectVersion: '$(Build.SourceBranchName)_$(Build.SourceVersion)'
     cliSources: '.'
     extraProperties: |
       # Additional properties that will be passed to the scanner, 
@@ -62,18 +65,13 @@ steps:
       # sonar.exclusions=**/*.bin
       sonar.java.binaries=.
       sonar.exclusions=**/CCReport*/**
-  condition: 
-    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: SonarQubeAnalyze@4
-  condition: 
-    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
-- task: SonarQubePublish@4
-  inputs:
-    pollingTimeoutSec: '300'
-  condition: 
-    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+# - task: SonarQubePublish@4
+#   inputs:
+#     pollingTimeoutSec: '300'
+
 
 - task: Docker@2
   inputs:
