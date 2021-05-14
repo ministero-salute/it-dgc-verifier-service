@@ -50,7 +50,7 @@ steps:
     
 - task: SonarQubePrepare@4
   inputs:
-    SonarQube: 'SonarQubeAzure-temp'
+    SonarQube: 'SonarQubeAzure6.7Sogei'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: '$(System.TeamProject)_it-dgc-verifier-service'
