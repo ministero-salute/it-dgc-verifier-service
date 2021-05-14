@@ -74,3 +74,8 @@ steps:
     pollingTimeoutSec: '300'
   condition: 
     and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+- task: Docker@2
+  inputs:
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
