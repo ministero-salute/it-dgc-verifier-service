@@ -62,18 +62,13 @@ steps:
       # sonar.exclusions=**/*.bin
       sonar.java.binaries=.
       sonar.exclusions=**/CCReport*/**
-  condition: 
-    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: SonarQubeAnalyze@4
-  condition: 
-    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: SonarQubePublish@4
   inputs:
     pollingTimeoutSec: '300'
-  condition: 
-    and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
 
 - task: Docker@2
   inputs:
