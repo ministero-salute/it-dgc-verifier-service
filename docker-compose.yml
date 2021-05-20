@@ -1,39 +1,20 @@
 version: '3'
 
 services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
   backend:
     build: .
-    image: it-dgc-verifier-service/client
-    container_name: it-dgc-verifier
+    image: it-dgc-verifier-service
+    container_name: it-dgc-verifier-service
     ports:
-      - 8080:8080
+      - 9080:9080        
     environment:
-      - SERVER_PORT=8080
-      - PROXY_HOST=host
-      - PROXY_PORT=8080
-      - PROXY_USER=user
-      - PROXY_PWD=password
-      - MONGO_DB_URI=mongodb://user:password@mongodd:27017/EGFSDB
-      - REDIS_URL=redis://:password@redis:15166
-      - SIGN_EXTERNAL_URL=https://host/v1/sign
-      - SSLDP_JKS_PATH=/security/sslclient/ssldp.jks
-      - SSLDP_JKS_PASSWORD=password
-      - SSLDP_CERT_PASSWORD=password
-      - EFGS_BASE_URL=https://acc-efgs-ws.tech.ec.europa.eu
-      - SSLEFGS_JKS_PATH=/security/sslclient/ssldgc.jks
-      - SSLEFGS_JKS_PASSWORD=password
-      - SSLEFGS_CERT_PASSWORD=password
-      - TRUST_JKS_PATH=/security/truststore/truststore.jks
-      - TRUST_JKS_PASSWORD=password
-      - TRUST_EFGS_ANCHOR_ALIAS=anchor_alias
-    volumes:
-      - c:\security\sslclient:/security/sslclient
-      - c:\security\truststore:/security/truststore
-      - c:\it-dgc-verifier-service\config:/it-dgc-verifier-service/config
-    networks:
-      backend:
-      persistence:
-
-networks:
-  persistence:
-  backend:
+      - SERVER_PORT=9080
+      - MONGO_DB_URI=mongodb://mongodb:27017
+    network_mode: host
+  
+  
