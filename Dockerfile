@@ -28,4 +28,4 @@ RUN useradd \
 USER dgc
 
 
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /it-dgc-verifier-service/app.jar --spring.config.location=file:/it-dgc-verifier-service/config/application.properties" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /it-dgc-verifier-service/app.jar --spring.config.location=file:/it-dgc-verifier-service/src/main/resources/application.properties" ]
