@@ -41,24 +41,30 @@ This repository contains the source code of the EU COVID-19 Certificate Verifier
 ### Prerequisites
  - [Open JDK 11](https://openjdk.java.net) 
  - [Maven](https://maven.apache.org)
+ - [MongoDB](https://www.mongodb.com/)
 
 #### Maven based build
 This is the recommended way for taking part in the development.
 Please check, whether following prerequisites are installed on your machine:
 - [Open JDK 11](https://openjdk.java.net) or a similar JDK 11 compatible VM
 - [Maven](https://maven.apache.org)
+- [MongoDB](https://www.mongodb.com/) a MongoDB instance running locally
 
 #### Build Docker Image
 This project also supports building a Docker image.
-
+First ensure you have a MongoDB instance running locall, otherwise change the connection url in the test file: ./src/test/resources/application.properties
 To build the Docker image you need to build the project from the root:
 
 ```shell script
 git clone git@github.com:ministero-salute/it-dgc-verifier-service.git
 cd it-dgc-verifier-service
 mvn clean package
+
+mkdir config
+cp ./src/main/resources/application.properties ./config
 ```
-For local testing first ensure you have a MongoDB instance running locally, then fill the envar in the enviroment section of the ``docker-compose.yml``:
+
+By default the docker image uses a local mongodb instance running on  `` mongodb: // 127.0.0.1:27017``. Otherwise you can change the connection url by editing the envar in the enviroment section of the ``docker-compose.yml``:
 
 ```
 environment:
