@@ -64,7 +64,7 @@ mkdir config
 cp ./src/main/resources/application.properties ./config
 ```
 
-By default the docker image uses a local mongodb instance running on  `` mongodb: // 127.0.0.1:27017``. Otherwise you can change the connection url by editing the envar in the enviroment section of the ``docker-compose.yml``:
+By default the docker image uses a local mongodb instance running on  `` mongodb://127.0.0.1:27017``. Otherwise you can change the connection url by editing the envar in the enviroment section of the ``docker-compose.yml``:
 
 ```
 environment:
