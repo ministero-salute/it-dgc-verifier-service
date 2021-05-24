@@ -52,7 +52,7 @@ Please check, whether following prerequisites are installed on your machine:
 
 #### Build Docker Image
 This project also supports building a Docker image.
-First ensure you have a MongoDB instance running locall, otherwise change the connection url in the test file: ./src/test/resources/application.properties
+First ensure you have a MongoDB instance running locall on `` mongodb://127.0.0.1:27017``, otherwise change the connection url in the test file: ./src/test/resources/application.properties
 To build the Docker image you need to build the project from the root:
 
 ```shell script
