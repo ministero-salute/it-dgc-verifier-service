@@ -1,11 +1,10 @@
 version: '3'
 
+networks:
+  backend_net:
+    driver: bridge
+
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - 27017:27017
   backend:
     build: .
     image: it-dgc-verifier-service
@@ -14,7 +13,7 @@ services:
       - 9080:9080        
     environment:
       - SERVER_PORT=9080
-      - MONGO_DB_URI=mongodb://mongodb:27017
-    network_mode: host
-  
+      - MONGO_DB_URI=mongodb://host.docker.internal:27017/EGFSDB-dev
+    networks:
+      - backend_net
   
