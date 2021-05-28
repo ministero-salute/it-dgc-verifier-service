@@ -61,7 +61,9 @@ git clone git@github.com:ministero-salute/it-dgc-verifier-service.git
 cd it-dgc-verifier-service
 mvn clean package 
 ```
+
 Then, copy the file ``application.properties`` contained in the path ``./src/main/resources`` into the ``./config`` folder:
+
 ```shell script
 mkdir config
 cp ./src/main/resources/application.properties ./config
