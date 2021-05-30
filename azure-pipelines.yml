@@ -57,7 +57,7 @@ steps:
     configMode: 'manual'
     cliProjectKey: '$(System.TeamProject)_it-dgc-verifier-service'
     cliProjectName: '$(System.TeamProject)_it-dgc-verifier-service'
-    cliProjectVersion: '$(Build.SourceVersion)'
+    cliProjectVersion: '$(Build.SourceBranchName)_$(Build.SourceVersion)'
     cliSources: '.'
     extraProperties: |
       # Additional properties that will be passed to the scanner, 
