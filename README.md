@@ -61,10 +61,10 @@ git clone git@github.com:ministero-salute/it-dgc-verifier-service.git
 cd it-dgc-verifier-service
 mvn clean package 
 ```
-Then, copy the file ``application.properties`` contained in the path ``./src/main/resources`` into the ``./config`` folder:
+Then, copy the file ``application.properties`` contained in the path ``./src/main/resources`` into the ``./it-dgc-verifier-service/config`` folder:
 ```shell script
-mkdir config
-cp ./src/main/resources/application.properties ./config
+mkdir -p it-dgc-verifier-service/config
+cp ./src/main/resources/application.properties ./it-dgc-verifier-service/config
 ```
 
 By default the docker image uses a local mongodb instance running on  `` mongodb://127.0.0.1:27017``, you can always change the connection url by editing the envar in the enviroment section of the ``docker-compose.yml``:

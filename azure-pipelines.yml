@@ -42,13 +42,6 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-
-- task: BuildQualityChecks@8
-  inputs:
-    checkCoverage: true
-    coverageFailOption: 'fixed'
-    coverageType: 'lines'
-    coverageThreshold: '80'
     
 - task: SonarQubePrepare@4
   inputs:
