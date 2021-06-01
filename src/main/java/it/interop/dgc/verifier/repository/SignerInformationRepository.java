@@ -1,5 +1,5 @@
 /*-
- *   Copyright (C) 2021 Presidenza del Consiglio dei Ministri.
+ *   Copyright (C) 2021 Ministero della Salute and all other contributors.
  *   Please refer to the AUTHORS file for more information. 
  *   This program is free software: you can redistribute it and/or modify 
  *   it under the terms of the GNU Affero General Public License as 
