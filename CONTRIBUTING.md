@@ -44,7 +44,7 @@ The root contains the following folders:
 
 All the repository logic of EU COVID-19 Certificate Verifier Service can be found at the following path ```src/main/java```.
 
-The file for the different configurations ```application.properties``` can be found in ```src/main/resources```.
+The file for the different configurations ``application.properties`` can be found in ``src/main/resources``.
 # Gitflow
 This repository adopts the [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow) branch management system.
 
