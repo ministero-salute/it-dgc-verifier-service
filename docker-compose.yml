@@ -13,7 +13,7 @@ services:
       - 9080:9080        
     environment:
       - SERVER_PORT=9080
-      - MONGO_DB_URI=mongodb://host.docker.internal:27017/EGFSDB-dev
+      - MONGO_DB_URI=mongodb://host.docker.internal:27017/DGC-dev
     volumes:
       - ./it-dgc-verifier-service/config:/it-dgc-verifier-service/config
     networks:
