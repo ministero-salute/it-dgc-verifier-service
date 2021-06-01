@@ -1,4 +1,4 @@
-<h1 align="center">Digital Green Certificate Verifier Service</h1>
+<h1 align="center">EU Digital COVID Certificate Verifier Service</h1>
 
 <div align="center">
 <img width="256" height="256" src="img/logo.png">
@@ -34,7 +34,9 @@
 
 
 # Context
-This repository contains the source code of the EU COVID-19 Certificate Verifier Service.
+This repository contains the source code of the EU Digital COVID Certificate Verifier Service.
+
+The Verifier Service is part of the national backends and caches the public keys that are distributed through the DGCG. It is accessed by the Verifier Apps (Android, iOS) to update the key store periodically.
 
 # Installation
 
@@ -80,6 +82,23 @@ Once the requirements above shown are satisfied open a shell with working direct
 ```shell script
 docker-compose up --build
 ```
+#### Dependencies
+
+The project has been implemented in [Java 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
+
+[Maven](http://maven.apache.org/) is used for dependency management. Maven is a build manager tool and mostly used in java projects. Maven was built on a central concept of project object model (POM).
+
+The ```pom.xml``` contains all necessary information about the project, as well as configurations of plugins to be used during the build process.
+
+The backend services follow a micro-service architecture, where each critical functionality is deployed as its own component. Components are distributed in dedicated [Docker](https://www.docker.com/) images, Docker being an industry standard platform for the containerization and virtualization of software.
+
+The following dependencies are used to implement the business logic:
+
+- **[spring data mongo](https://spring.io/projects/spring-data-mongodb).** A libray which provides integration with the MongoDB document database. Key functional areas of Spring Data MongoDB are a POJO centric model for interacting with a MongoDB DBCollection and easily writing a Repository style data access layer. Released as an open-source project under the Apache 2.0 licence.
+- **[Lombok](https://projectlombok.org/).** A Java library tool that generates code for minimizing boilerplate code. The library replaces boilerplate code with easy-to-use annotations.For example, by adding a couple of annotations, you can get rid of code clutters, such as getters and setters methods, constructors, hashcode, equals, and toString methods, and so on.
+Lombok is an open-source project released under the MIT licence.
+- **[springdoc-openapi](https://springdoc.org/).** A library that helps automating the generation of API documentation using spring boot projects. springdoc-openapi works by examining an application at runtime to infer API semantics based on spring configurations, class structure and various annotations. Released as an open-source project under the Apache 2.0 licence.
+- **[JaCoCo](https://www.eclemma.org/jacoco/trunk/doc/maven.html).** A Maven plug-in that provides the JaCoCo runtime agent to your tests and allows basic report creation. JaCoCo is released as an open-source project under the EPL 2.0 licence.
 
 # Contributing
 Contributions are most welcome. Before proceeding, please read the [Code of Conduct](./CODE_OF_CONDUCT.md) for guidance on how to approach the community and create a positive environment. Additionally, please read our [CONTRIBUTING](./CONTRIBUTING.md) file, which contains guidance on ensuring a smooth contribution process.
@@ -91,13 +110,11 @@ Here is a list of repository contributors. Thank you to everyone involved for im
 
 ## Authors and Copyright
 
-Copyright 2021 (c) Presidenza del Consiglio dei Ministri.
+Copyright 2021 (c)  Ministero della Salute.
 
 Please check the [AUTHORS](AUTHORS) file for extended reference.
 
 ## Third-party component licences
-
-[TODO]
 
 ## Licence details
 
