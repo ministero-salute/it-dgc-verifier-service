@@ -74,7 +74,7 @@ By default the docker image uses a local mongodb instance running on  `` mongodb
 
 ```
 environment:
-    MONGO_DB_URI=mongodb://user:password@mongodb:27017/EGFSDB-dev
+    MONGO_DB_URI=mongodb://user:password@mongodb:27017/DGC-dev
 ```
 
 Once the requirements above shown are satisfied open a shell with working directory and execute
