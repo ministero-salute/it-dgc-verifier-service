@@ -58,13 +58,17 @@ steps:
       # sonar.exclusions=**/*.bin
       sonar.java.binaries=.
       sonar.exclusions=**/CCReport*/**
+  continueOnError: true
 
 - task: SonarQubeAnalyze@4
+  continueOnError: true
+  condition: succeeded()
 
-# - task: SonarQubePublish@4
-#   inputs:
-#     pollingTimeoutSec: '300'
-
+- task: SonarQubePublish@4
+  inputs:
+    pollingTimeoutSec: '300'
+  continueOnError: true
+  condition: succeeded()
 
 - task: Docker@2
   inputs:
