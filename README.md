@@ -97,14 +97,21 @@ The following dependencies are used to implement the business logic:
 - **[spring data mongo](https://spring.io/projects/spring-data-mongodb).** A libray which provides integration with the MongoDB document database. Key functional areas of Spring Data MongoDB are a POJO centric model for interacting with a MongoDB DBCollection and easily writing a Repository style data access layer. Released as an open-source project under the Apache 2.0 licence.
 - **[Lombok](https://projectlombok.org/).** A Java library tool that generates code for minimizing boilerplate code. The library replaces boilerplate code with easy-to-use annotations.For example, by adding a couple of annotations, you can get rid of code clutters, such as getters and setters methods, constructors, hashcode, equals, and toString methods, and so on.
 Lombok is an open-source project released under the MIT licence.
-- **[springdoc-openapi](https://springdoc.org/).** A library that helps automating the generation of API documentation using spring boot projects. springdoc-openapi works by examining an application at runtime to infer API semantics based on spring configurations, class structure and various annotations. Released as an open-source project under the Apache 2.0 licence.
+- **[springdoc-openapi](https://springdoc.org/).** A library that helps automating the generation of API documentation using spring boot projects. Springdoc-openapi works by examining an application at runtime to infer API semantics based on spring configurations, class structure and various annotations. Released as an open-source project under the Apache 2.0 licence.
 - **[JaCoCo](https://www.eclemma.org/jacoco/trunk/doc/maven.html).** A Maven plug-in that provides the JaCoCo runtime agent to your tests and allows basic report creation. JaCoCo is released as an open-source project under the EPL 2.0 licence.
+- **[junit4](https://junit.org/junit4/).** A simple framework to write repeatable tests. It is an instance of the xUnit architecture for unit testing frameworks. Junit4 is released as an open-source project under Eclipse Public License 1.0.
 
 # Contributing
 Contributions are most welcome. Before proceeding, please read the [Code of Conduct](./CODE_OF_CONDUCT.md) for guidance on how to approach the community and create a positive environment. Additionally, please read our [CONTRIBUTING](./CONTRIBUTING.md) file, which contains guidance on ensuring a smooth contribution process.
 
 ## Contributors
 Here is a list of repository contributors. Thank you to everyone involved for improving this project, day by day.
+
+<a href="https://github.com/ministero-salute/it-dgc-verifier-service/graphs/contributors">
+  <img
+  src="https://contributors-img.web.app/image?repo=ministero-salute/it-dgc-verifier-service"
+  />
+</a>
 
 # Licence
 
