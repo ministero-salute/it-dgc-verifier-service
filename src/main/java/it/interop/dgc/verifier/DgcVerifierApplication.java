@@ -19,14 +19,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.servers.Server;
 
 @SpringBootApplication
 @OpenAPIDefinition(
 	    info = @Info(
 	        title = "DGC Verifier Service API",
 	        description = "The API defines how to exchange verification information for the Digital Green Certificates.",
-	        version = "1.0.0"
-	    )
+	        version = "1.1.0"
+	    ), 
+		servers = {
+    		@Server(
+				url = "https://get.dgc.gov.it", 
+				description = "Production server"),
+    		@Server(
+    			url = "http://localhost:9080", 
+    			description = "Development server")
+	    }
 	)
 public class DgcVerifierApplication {
 
