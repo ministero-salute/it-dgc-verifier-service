@@ -96,6 +96,7 @@
 				<configuration>
                     <excludes>
 						<exclude>it/interop/dgc/verifier/entity/*</exclude>
+						<exclude>it/interop/dgc/verifier/entity/dto/*</exclude>
                     </excludes>
                 </configuration>
 				<executions>
