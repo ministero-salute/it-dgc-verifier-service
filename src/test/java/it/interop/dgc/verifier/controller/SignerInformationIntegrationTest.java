@@ -144,10 +144,11 @@ class SignerInformationIntegrationTest {
 		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
 				SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN)).andExpect(status().isNoContent());
 
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_2_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
 		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_3_KID),
 				SignerInformationTestHelper.TEST_COLLECTION);
+		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_2_KID),
+				SignerInformationTestHelper.TEST_COLLECTION);
+		
 
 		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
 				SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN)).andExpect(status().isOk())
@@ -174,13 +175,13 @@ class SignerInformationIntegrationTest {
 
 	@Test
 	void requestCertificatesFromCertListWithRevokedCerts() throws Exception {
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_1_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
 		SignerInformationEntity cert2 = SignerInformationTestHelper
 				.getCert(SignerInformationTestHelper.TEST_CERT_2_KID);
 		mongoTemplate.save(cert2, SignerInformationTestHelper.TEST_COLLECTION);
 		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_3_KID),
 				SignerInformationTestHelper.TEST_COLLECTION);
+		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_1_KID),
+				SignerInformationTestHelper.TEST_COLLECTION);		
 
 		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
 				SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN)).andExpect(status().isOk())
@@ -211,11 +212,11 @@ class SignerInformationIntegrationTest {
 	void requestValidIdListFromCertListWithRevokedCert() throws Exception {
 		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_1_KID),
 				SignerInformationTestHelper.TEST_COLLECTION);
+		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_3_KID),
+				SignerInformationTestHelper.TEST_COLLECTION);
 		SignerInformationEntity cert2 = SignerInformationTestHelper
 				.getCert(SignerInformationTestHelper.TEST_CERT_2_KID);
 		mongoTemplate.save(cert2, SignerInformationTestHelper.TEST_COLLECTION);
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_3_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
 
 		mockMvc.perform(get(URI_STATUS_API)).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))

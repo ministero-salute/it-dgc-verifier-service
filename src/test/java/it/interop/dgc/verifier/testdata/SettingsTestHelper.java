@@ -21,8 +21,6 @@
 package it.interop.dgc.verifier.testdata;
 
 import it.interop.dgc.verifier.entity.SettingEntity;
-import it.interop.dgc.verifier.entity.SignerInformationEntity;
-import it.interop.dgc.verifier.enums.CertificateType;
 
 public class SettingsTestHelper {
 
