@@ -38,3 +38,10 @@ build/
 
 ### Logs ###
 /application-log/
+
+### Prettier files ###
+node_modules/
+package-lock.json
+
+### OS Files ###
+.DS_Store
