@@ -20,8 +20,8 @@
 
 package it.interop.dgc.verifier.repository;
 
+import it.interop.dgc.verifier.entity.ValueSetEntity;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -29,26 +29,29 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import it.interop.dgc.verifier.entity.ValueSetEntity;
-
 @Repository
 public class ValueSetRepository {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-	public List<ValueSetEntity> findAllByOrderByIdAsc() {
-		Query query = new Query();
-		query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
-		List<ValueSetEntity> valueSets = mongoTemplate.find(query, ValueSetEntity.class);
-		return valueSets;
-	}
+    public List<ValueSetEntity> findAllByOrderByIdAsc() {
+        Query query = new Query();
+        query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
+        List<ValueSetEntity> valueSets = mongoTemplate.find(
+            query,
+            ValueSetEntity.class
+        );
+        return valueSets;
+    }
 
-	public ValueSetEntity findOneByHash(String hash) {
-		Query query = new Query();	
-		query.addCriteria(Criteria.where("hash").is(hash));
-		ValueSetEntity valueSet = mongoTemplate.findOne(query, ValueSetEntity.class);
-		return valueSet;
-	}
-	
+    public ValueSetEntity findOneByHash(String hash) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("hash").is(hash));
+        ValueSetEntity valueSet = mongoTemplate.findOne(
+            query,
+            ValueSetEntity.class
+        );
+        return valueSet;
+    }
 }

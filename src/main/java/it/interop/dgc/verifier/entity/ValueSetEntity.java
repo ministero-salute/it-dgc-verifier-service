@@ -22,22 +22,20 @@ package it.interop.dgc.verifier.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @Document(collection = "valuesets")
 public class ValueSetEntity implements Serializable {
 
-	private static final long serialVersionUID = 1822947920566700188L;
-	
-	/**
+    private static final long serialVersionUID = 1822947920566700188L;
+
+    /**
      * SHA-256 Thumbprint of the valueset (hex encoded).
      */
     @Field(name = "hash")
@@ -50,15 +48,15 @@ public class ValueSetEntity implements Serializable {
     private String rawData;
 
     @CreatedDate
-    @Field(name="created_at")
+    @Field(name = "created_at")
     private Date createdAt;
 
-    @Field(name="batch_tag")
+    @Field(name = "batch_tag")
     private String downloadBatchTag;
-    
+
     public ValueSetEntity(String hash, String identifier, String data) {
-		this.hash = hash;
-		this.identifier = identifier;
-		this.rawData = data;
-	}
+        this.hash = hash;
+        this.identifier = identifier;
+        this.rawData = data;
+    }
 }

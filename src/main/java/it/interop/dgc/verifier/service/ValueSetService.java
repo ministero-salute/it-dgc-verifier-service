@@ -20,16 +20,14 @@
 
 package it.interop.dgc.verifier.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import it.interop.dgc.verifier.entity.ValueSetEntity;
 import it.interop.dgc.verifier.entity.dto.ValueSetListItemDto;
 import it.interop.dgc.verifier.repository.ValueSetRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -41,10 +39,17 @@ public class ValueSetService {
      *  Gets list of all value set ids and hashes.
      */
     public List<ValueSetListItemDto> getValueSetsList() {
-    	
-    	List<ValueSetListItemDto> valueSetItemsDto = new ArrayList<ValueSetListItemDto>();
+        List<ValueSetListItemDto> valueSetItemsDto = new ArrayList<ValueSetListItemDto>();
         List<ValueSetEntity> valueSetItems = valueSetRepository.findAllByOrderByIdAsc();
-        valueSetItems.forEach(valueSet -> valueSetItemsDto.add(new ValueSetListItemDto(valueSet.getIdentifier(), valueSet.getHash())));
+        valueSetItems.forEach(
+            valueSet ->
+                valueSetItemsDto.add(
+                    new ValueSetListItemDto(
+                        valueSet.getIdentifier(),
+                        valueSet.getHash()
+                    )
+                )
+        );
         return valueSetItemsDto;
     }
 
@@ -53,8 +58,6 @@ public class ValueSetService {
      */
     @Transactional
     public ValueSetEntity getValueSetByHash(String hash) {
-
         return valueSetRepository.findOneByHash(hash);
     }
-
 }

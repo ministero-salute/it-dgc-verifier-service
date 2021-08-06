@@ -20,25 +20,26 @@
 
 package it.interop.dgc.verifier.repository;
 
+import it.interop.dgc.verifier.entity.CountryListEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import it.interop.dgc.verifier.entity.CountryListEntity;
-
 @Repository
 public class CountryListRepository {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
-	
-    public CountryListEntity getFirstById(Long id) {
-		Query query = new Query();
-		query.addCriteria(Criteria.where("id").is(id));
-		CountryListEntity country = mongoTemplate.findOne(query, CountryListEntity.class);
-		return country;
-	}
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
+    public CountryListEntity getFirstById(Long id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(id));
+        CountryListEntity country = mongoTemplate.findOne(
+            query,
+            CountryListEntity.class
+        );
+        return country;
+    }
 }

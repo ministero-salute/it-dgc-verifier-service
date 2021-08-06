@@ -24,6 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import it.interop.dgc.verifier.repository.ValueSetRepository;
+import it.interop.dgc.verifier.testdata.BusinessRulesTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import it.interop.dgc.verifier.repository.ValueSetRepository;
-import it.interop.dgc.verifier.testdata.BusinessRulesTestHelper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -50,105 +49,162 @@ class ValueSetControllerIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-	private MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @BeforeEach
     void clearRepositoryData() {
-    	mongoTemplate.remove(new Query(), BusinessRulesTestHelper.VS_TEST_COLLECTION);
+        mongoTemplate.remove(
+            new Query(),
+            BusinessRulesTestHelper.VS_TEST_COLLECTION
+        );
     }
-    
+
     @Test
     void getEmptyValueSetList() throws Exception {
-        mockMvc.perform(get("/v1/dgc/valuesets").header(API_VERSION_HEADER, "1.0"))
+        mockMvc
+            .perform(get("/v1/dgc/valuesets").header(API_VERSION_HEADER, "1.0"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json("[]"));
     }
 
-
-
     @Test
     void getValueSetList() throws Exception {
+        String expectedJson =
+            "[{\"id\":\"" +
+            BusinessRulesTestHelper.VALUESET_IDENTIFIER_1 +
+            "\"," +
+            "\"hash\":\"" +
+            BusinessRulesTestHelper.VALUESET_HASH_1 +
+            "\"}," +
+            "{\"id\":\"" +
+            BusinessRulesTestHelper.VALUESET_IDENTIFIER_2 +
+            "\"," +
+            "\"hash\":\"" +
+            BusinessRulesTestHelper.VALUESET_HASH_2 +
+            "\"}]";
 
-        String expectedJson = "[{\"id\":\""+BusinessRulesTestHelper.VALUESET_IDENTIFIER_1 +"\","
-            + "\"hash\":\""+BusinessRulesTestHelper.VALUESET_HASH_1+"\"},"
-            + "{\"id\":\""+BusinessRulesTestHelper.VALUESET_IDENTIFIER_2 +"\","
-            + "\"hash\":\""+BusinessRulesTestHelper.VALUESET_HASH_2+"\"}]";
+        mongoTemplate.save(
+            BusinessRulesTestHelper.getValueSet(
+                BusinessRulesTestHelper.VALUESET_HASH_1,
+                BusinessRulesTestHelper.VALUESET_IDENTIFIER_1,
+                BusinessRulesTestHelper.VALUESET_DATA_1
+            ),
+            BusinessRulesTestHelper.VS_TEST_COLLECTION
+        );
 
-        mongoTemplate.save(BusinessRulesTestHelper.getValueSet(BusinessRulesTestHelper.VALUESET_HASH_1,
-            BusinessRulesTestHelper.VALUESET_IDENTIFIER_1,
-            BusinessRulesTestHelper.VALUESET_DATA_1),
-        		BusinessRulesTestHelper.VS_TEST_COLLECTION);
+        mongoTemplate.save(
+            BusinessRulesTestHelper.getValueSet(
+                BusinessRulesTestHelper.VALUESET_HASH_2,
+                BusinessRulesTestHelper.VALUESET_IDENTIFIER_2,
+                BusinessRulesTestHelper.VALUESET_DATA_2
+            ),
+            BusinessRulesTestHelper.VS_TEST_COLLECTION
+        );
 
-        mongoTemplate.save(BusinessRulesTestHelper.getValueSet(BusinessRulesTestHelper.VALUESET_HASH_2,
-            BusinessRulesTestHelper.VALUESET_IDENTIFIER_2,
-            BusinessRulesTestHelper.VALUESET_DATA_2),
-        		BusinessRulesTestHelper.VS_TEST_COLLECTION);
-
-        mockMvc.perform(get("/v1/dgc/valuesets").header(API_VERSION_HEADER, "1.0"))
+        mockMvc
+            .perform(get("/v1/dgc/valuesets").header(API_VERSION_HEADER, "1.0"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json(expectedJson));
     }
 
-
     @Test
     void getValueSet() throws Exception {
-    	mongoTemplate.save(BusinessRulesTestHelper.getValueSet(BusinessRulesTestHelper.VALUESET_HASH_1,
-            BusinessRulesTestHelper.VALUESET_IDENTIFIER_1,
-            BusinessRulesTestHelper.VALUESET_DATA_1),
-        		BusinessRulesTestHelper.VS_TEST_COLLECTION);
+        mongoTemplate.save(
+            BusinessRulesTestHelper.getValueSet(
+                BusinessRulesTestHelper.VALUESET_HASH_1,
+                BusinessRulesTestHelper.VALUESET_IDENTIFIER_1,
+                BusinessRulesTestHelper.VALUESET_DATA_1
+            ),
+            BusinessRulesTestHelper.VS_TEST_COLLECTION
+        );
 
-    	mongoTemplate.save(BusinessRulesTestHelper.getValueSet(BusinessRulesTestHelper.VALUESET_HASH_2,
-            BusinessRulesTestHelper.VALUESET_IDENTIFIER_2,
-            BusinessRulesTestHelper.VALUESET_DATA_2),
-        		BusinessRulesTestHelper.VS_TEST_COLLECTION);
+        mongoTemplate.save(
+            BusinessRulesTestHelper.getValueSet(
+                BusinessRulesTestHelper.VALUESET_HASH_2,
+                BusinessRulesTestHelper.VALUESET_IDENTIFIER_2,
+                BusinessRulesTestHelper.VALUESET_DATA_2
+            ),
+            BusinessRulesTestHelper.VS_TEST_COLLECTION
+        );
 
-        mockMvc.perform(get("/v1/dgc/valuesets/" + BusinessRulesTestHelper.VALUESET_HASH_1)
-            .header(API_VERSION_HEADER, "1.0"))
+        mockMvc
+            .perform(
+                get(
+                    "/v1/dgc/valuesets/" +
+                    BusinessRulesTestHelper.VALUESET_HASH_1
+                )
+                    .header(API_VERSION_HEADER, "1.0")
+            )
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json(BusinessRulesTestHelper.VALUESET_DATA_1));
 
-        mockMvc.perform(get("/v1/dgc/valuesets/" + BusinessRulesTestHelper.VALUESET_HASH_2)
-            .header(API_VERSION_HEADER, "1.0"))
+        mockMvc
+            .perform(
+                get(
+                    "/v1/dgc/valuesets/" +
+                    BusinessRulesTestHelper.VALUESET_HASH_2
+                )
+                    .header(API_VERSION_HEADER, "1.0")
+            )
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json(BusinessRulesTestHelper.VALUESET_DATA_2));
-
     }
 
     @Test
     void getValueSetNotExist() throws Exception {
+        String expectedJson =
+            "{\"code\":\"0x001\",\"problem\":\"Possible reasons: The provided hash value is " +
+            "not correct\",\"sendValue\":\"" +
+            BusinessRulesTestHelper.VALUESET_HASH_1 +
+            "\",\"details\":\"\"}";
 
-        String expectedJson = "{\"code\":\"0x001\",\"problem\":\"Possible reasons: The provided hash value is "
-            + "not correct\",\"sendValue\":\""+BusinessRulesTestHelper.VALUESET_HASH_1+"\",\"details\":\"\"}";
-
-
-        mockMvc.perform(get("/v1/dgc/valuesets/" + BusinessRulesTestHelper.VALUESET_HASH_1)
-            .header(API_VERSION_HEADER, "1.0"))
+        mockMvc
+            .perform(
+                get(
+                    "/v1/dgc/valuesets/" +
+                    BusinessRulesTestHelper.VALUESET_HASH_1
+                )
+                    .header(API_VERSION_HEADER, "1.0")
+            )
             .andExpect(status().isNotFound())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json(expectedJson));
 
-        mongoTemplate.save(BusinessRulesTestHelper.getValueSet(BusinessRulesTestHelper.VALUESET_HASH_2,
-            BusinessRulesTestHelper.VALUESET_IDENTIFIER_2,
-            BusinessRulesTestHelper.VALUESET_DATA_2),
-        		BusinessRulesTestHelper.VS_TEST_COLLECTION);
+        mongoTemplate.save(
+            BusinessRulesTestHelper.getValueSet(
+                BusinessRulesTestHelper.VALUESET_HASH_2,
+                BusinessRulesTestHelper.VALUESET_IDENTIFIER_2,
+                BusinessRulesTestHelper.VALUESET_DATA_2
+            ),
+            BusinessRulesTestHelper.VS_TEST_COLLECTION
+        );
 
-        mockMvc.perform(get("/v1/dgc/valuesets/" + BusinessRulesTestHelper.VALUESET_HASH_2)
-            .header(API_VERSION_HEADER, "1.0"))
+        mockMvc
+            .perform(
+                get(
+                    "/v1/dgc/valuesets/" +
+                    BusinessRulesTestHelper.VALUESET_HASH_2
+                )
+                    .header(API_VERSION_HEADER, "1.0")
+            )
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json(BusinessRulesTestHelper.VALUESET_DATA_2));
 
-        mockMvc.perform(get("/v1/dgc/valuesets/" + BusinessRulesTestHelper.VALUESET_HASH_1)
-            .header(API_VERSION_HEADER, "1.0"))
+        mockMvc
+            .perform(
+                get(
+                    "/v1/dgc/valuesets/" +
+                    BusinessRulesTestHelper.VALUESET_HASH_1
+                )
+                    .header(API_VERSION_HEADER, "1.0")
+            )
             .andExpect(status().isNotFound())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json(expectedJson));
-
     }
-
-
 }
