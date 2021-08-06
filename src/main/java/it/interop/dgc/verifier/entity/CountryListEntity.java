@@ -21,20 +21,19 @@
 package it.interop.dgc.verifier.entity;
 
 import java.io.Serializable;
-
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @NoArgsConstructor
 @Document(collection = "country_list")
 public class CountryListEntity implements Serializable {
-	private static final long serialVersionUID = -3383002566473192925L;
 
-	@Field(name = "id")
+    private static final long serialVersionUID = -3383002566473192925L;
+
+    @Field(name = "id")
     private Long countryListId;
 
     @Field(name = "raw_data")
@@ -45,10 +44,9 @@ public class CountryListEntity implements Serializable {
 
     @Field(name = "signature")
     private String signature;
-    
+
     public CountryListEntity(Long countryListId, String rawData) {
-    	this.countryListId = countryListId;
-    	this.rawData = rawData;
+        this.countryListId = countryListId;
+        this.rawData = rawData;
     }
-    
 }

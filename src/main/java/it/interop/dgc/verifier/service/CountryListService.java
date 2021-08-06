@@ -20,12 +20,11 @@
 
 package it.interop.dgc.verifier.service;
 
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import it.interop.dgc.verifier.entity.CountryListEntity;
 import it.interop.dgc.verifier.repository.CountryListRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -41,11 +40,12 @@ public class CountryListService {
      */
     @Transactional
     public CountryListEntity getCountryList() {
-        CountryListEntity  cle = countryListRepository.getFirstById(COUNTRY_LIST_ID);
+        CountryListEntity cle = countryListRepository.getFirstById(
+            COUNTRY_LIST_ID
+        );
         if (cle == null) {
-            cle =  new CountryListEntity(COUNTRY_LIST_ID,"[]");
+            cle = new CountryListEntity(COUNTRY_LIST_ID, "[]");
         }
         return cle;
     }
-    
 }

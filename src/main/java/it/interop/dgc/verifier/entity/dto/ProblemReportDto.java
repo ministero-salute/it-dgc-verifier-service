@@ -27,12 +27,12 @@ import lombok.Data;
 @Schema(
     name = "ProblemReport",
     type = "object",
-    example = "{\n"
-        + "\"code\":\"0x001\",\n"
-        + "\"problem\":\"[PROBLEM]\",\n"
-        + "\"sent value\":\"[Sent Value]\",\n"
-        + "\"details\":\"...\"\n"
-        + "}"
+    example = "{\n" +
+    "\"code\":\"0x001\",\n" +
+    "\"problem\":\"[PROBLEM]\",\n" +
+    "\"sent value\":\"[Sent Value]\",\n" +
+    "\"details\":\"...\"\n" +
+    "}"
 )
 @Data
 @AllArgsConstructor
@@ -45,5 +45,4 @@ public class ProblemReportDto {
     private String sendValue;
 
     private String details;
-
 }

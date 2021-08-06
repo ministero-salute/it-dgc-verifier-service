@@ -20,17 +20,15 @@
 
 package it.interop.dgc.verifier.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import it.interop.dgc.verifier.entity.BusinessRuleEntity;
 import it.interop.dgc.verifier.entity.dto.BusinessRuleListItemDto;
 import it.interop.dgc.verifier.repository.BusinessRuleRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -43,26 +41,45 @@ public class BusinessRuleService {
      *
      */
     public List<BusinessRuleListItemDto> getBusinessRulesList() {
-
-    	List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<BusinessRuleListItemDto>();
+        List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<BusinessRuleListItemDto>();
         List<BusinessRuleEntity> rulesItems = businessRuleRepository.findAllByOrderByIdentifierAsc();
-        rulesItems.forEach(rulesItem -> businessRuleListItemDto.add(new BusinessRuleListItemDto(rulesItem.getIdentifier(), 
-        		rulesItem.getVersion(), rulesItem.getCountry(), rulesItem.getHash())));
-  
+        rulesItems.forEach(
+            rulesItem ->
+                businessRuleListItemDto.add(
+                    new BusinessRuleListItemDto(
+                        rulesItem.getIdentifier(),
+                        rulesItem.getVersion(),
+                        rulesItem.getCountry(),
+                        rulesItem.getHash()
+                    )
+                )
+        );
+
         return businessRuleListItemDto;
     }
 
     /**
      *  Gets list of all business rules ids and hashes for a country.
      */
-    public List<BusinessRuleListItemDto> getBusinessRulesListForCountry(String country) {
+    public List<BusinessRuleListItemDto> getBusinessRulesListForCountry(
+        String country
+    ) {
+        List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<BusinessRuleListItemDto>();
+        List<BusinessRuleEntity> rulesItems = businessRuleRepository.findAllByCountryOrderByIdentifierAsc(
+            country.toUpperCase(Locale.ROOT)
+        );
+        rulesItems.forEach(
+            rulesItem ->
+                businessRuleListItemDto.add(
+                    new BusinessRuleListItemDto(
+                        rulesItem.getIdentifier(),
+                        rulesItem.getVersion(),
+                        rulesItem.getCountry(),
+                        rulesItem.getHash()
+                    )
+                )
+        );
 
-    	List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<BusinessRuleListItemDto>();
-        List<BusinessRuleEntity> rulesItems =
-            businessRuleRepository.findAllByCountryOrderByIdentifierAsc(country.toUpperCase(Locale.ROOT));
-        rulesItems.forEach(rulesItem -> businessRuleListItemDto.add(new BusinessRuleListItemDto(rulesItem.getIdentifier(), 
-        		rulesItem.getVersion(), rulesItem.getCountry(), rulesItem.getHash())));
-        
         return businessRuleListItemDto;
     }
 
@@ -70,8 +87,10 @@ public class BusinessRuleService {
      *  Gets  a business rule by hash.
      */
     @Transactional
-    public BusinessRuleEntity getBusinessRuleByCountryAndHash(String country, String hash) {
-
-        return  businessRuleRepository.findOneByCountryAndHash(country, hash);
+    public BusinessRuleEntity getBusinessRuleByCountryAndHash(
+        String country,
+        String hash
+    ) {
+        return businessRuleRepository.findOneByCountryAndHash(country, hash);
     }
 }

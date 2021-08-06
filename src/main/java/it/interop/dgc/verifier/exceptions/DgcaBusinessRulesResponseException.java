@@ -25,11 +25,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 @Getter
-public class DgcaBusinessRulesResponseException extends ResponseStatusException {
+public class DgcaBusinessRulesResponseException
+    extends ResponseStatusException {
 
-	private static final long serialVersionUID = 3798203895162932731L;
+    private static final long serialVersionUID = 3798203895162932731L;
 
-	private final String code;
+    private final String code;
     private final String details;
     private final String sentValues;
     private final String problem;
@@ -43,11 +44,13 @@ public class DgcaBusinessRulesResponseException extends ResponseStatusException 
      * @param sentValues the values sent to cause the error.
      * @param problem    short problem description.
      */
-    public DgcaBusinessRulesResponseException(HttpStatus status,
-                                              String code,
-                                              String problem,
-                                              String sentValues,
-                                              String details) {
+    public DgcaBusinessRulesResponseException(
+        HttpStatus status,
+        String code,
+        String problem,
+        String sentValues,
+        String details
+    ) {
         super(status);
         this.code = code;
         this.details = details;
@@ -55,4 +58,3 @@ public class DgcaBusinessRulesResponseException extends ResponseStatusException 
         this.problem = problem;
     }
 }
-

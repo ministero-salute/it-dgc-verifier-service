@@ -23,6 +23,5 @@ public enum CertificateType {
     AUTHENTICATION,
     UPLOAD,
     CSCA,
-    DSC
-
+    DSC,
 }

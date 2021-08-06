@@ -20,6 +20,10 @@
 
 package it.interop.dgc.verifier.config;
 
+import it.interop.dgc.verifier.entity.dto.ProblemReportDto;
+import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,17 +33,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import it.interop.dgc.verifier.entity.dto.ProblemReportDto;
-import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 @ControllerAdvice
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
 public class ErrorHandler extends ResponseEntityExceptionHandler {
-
 
     /**
      * Global Exception Handler to wrap exceptions into a readable JSON Object.
@@ -54,13 +52,27 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
             return ResponseEntity
                 .status(((ResponseStatusException) e).getStatus())
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ProblemReportDto(de.getCode(), de.getProblem(), de.getSentValues(), de.getDetails()));
+                .body(
+                    new ProblemReportDto(
+                        de.getCode(),
+                        de.getProblem(),
+                        de.getSentValues(),
+                        de.getDetails()
+                    )
+                );
         } else {
             log.error("Uncatched exception", e);
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new ProblemReportDto("0x500", "Internal Server Error", "", ""));
+                .body(
+                    new ProblemReportDto(
+                        "0x500",
+                        "Internal Server Error",
+                        "",
+                        ""
+                    )
+                );
         }
     }
 }

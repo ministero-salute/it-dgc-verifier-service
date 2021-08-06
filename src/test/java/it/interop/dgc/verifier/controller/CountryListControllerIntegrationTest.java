@@ -24,6 +24,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import it.interop.dgc.verifier.entity.CountryListEntity;
+import it.interop.dgc.verifier.repository.CountryListRepository;
+import it.interop.dgc.verifier.testdata.BusinessRulesTestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,38 +37,38 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import it.interop.dgc.verifier.entity.CountryListEntity;
-import it.interop.dgc.verifier.repository.CountryListRepository;
-import it.interop.dgc.verifier.testdata.BusinessRulesTestHelper;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class CountryListControllerIntegrationTest {
 
     private static final Long COUNTRY_LIST_ID = 1L;
 
-    private static final String TEST_LIST_DATA = "[\"BE\", \"EL\", \"LT\", \"PT\", \"BG\", \"ES\", \"LU\", \"RO\", "
-        + "\"CZ\", \"FR\", \"HU\", \"SI\", \"DK\", \"HR\", \"MT\", \"SK\", \"DE\", \"IT\", \"NL\", \"FI\", \"EE\", "
-        + "\"CY\", \"AT\", \"SE\", \"IE\", \"LV\", \"PL\"]";
+    private static final String TEST_LIST_DATA =
+        "[\"BE\", \"EL\", \"LT\", \"PT\", \"BG\", \"ES\", \"LU\", \"RO\", " +
+        "\"CZ\", \"FR\", \"HU\", \"SI\", \"DK\", \"HR\", \"MT\", \"SK\", \"DE\", \"IT\", \"NL\", \"FI\", \"EE\", " +
+        "\"CY\", \"AT\", \"SE\", \"IE\", \"LV\", \"PL\"]";
 
     @Autowired
     CountryListRepository countryListRepository;
 
     @Autowired
-	private MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @BeforeEach
     void clearRepositoryData() {
-    	mongoTemplate.remove(new Query(), BusinessRulesTestHelper.CL_TEST_COLLECTION);
+        mongoTemplate.remove(
+            new Query(),
+            BusinessRulesTestHelper.CL_TEST_COLLECTION
+        );
     }
 
     @Autowired
     private MockMvc mockMvc;
 
-
     @Test
     void getEmptyCountryList() throws Exception {
-        mockMvc.perform(get("/v1/dgc/countrylist"))
+        mockMvc
+            .perform(get("/v1/dgc/countrylist"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json("[]"));
@@ -73,16 +76,16 @@ class CountryListControllerIntegrationTest {
 
     @Test
     void getCountryList() throws Exception {
-
-        CountryListEntity cle = new CountryListEntity(COUNTRY_LIST_ID, TEST_LIST_DATA);
+        CountryListEntity cle = new CountryListEntity(
+            COUNTRY_LIST_ID,
+            TEST_LIST_DATA
+        );
         mongoTemplate.save(cle, BusinessRulesTestHelper.CL_TEST_COLLECTION);
 
-        mockMvc.perform(get("/v1/dgc/countrylist"))
+        mockMvc
+            .perform(get("/v1/dgc/countrylist"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().json(TEST_LIST_DATA));
     }
 }
-
-
-

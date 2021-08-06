@@ -23,11 +23,9 @@ package it.interop.dgc.verifier.utils;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+import lombok.RequiredArgsConstructor;
 import org.bouncycastle.util.encoders.Hex;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +35,9 @@ public class BusinessRulesUtils {
      * returns SHA-256 Thumbprint of the data (hex encoded).
      */
     public String calculateHash(String data) throws NoSuchAlgorithmException {
-    	byte[] certHashBytes = MessageDigest.getInstance("SHA-256").digest(data.getBytes(StandardCharsets.UTF_8));
+        byte[] certHashBytes = MessageDigest
+            .getInstance("SHA-256")
+            .digest(data.getBytes(StandardCharsets.UTF_8));
         return Hex.toHexString(certHashBytes);
     }
-
 }

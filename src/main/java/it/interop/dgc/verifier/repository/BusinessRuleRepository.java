@@ -20,8 +20,8 @@
 
 package it.interop.dgc.verifier.repository;
 
+import it.interop.dgc.verifier.entity.BusinessRuleEntity;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -29,39 +29,50 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import it.interop.dgc.verifier.entity.BusinessRuleEntity;
-
 @Repository
 public class BusinessRuleRepository {
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
-	
-    public List<BusinessRuleEntity> findAllByOrderByIdentifierAsc() {
-		Query query = new Query();
-		query.addCriteria(Criteria.where("revoked").is(false));
-		query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
-		List<BusinessRuleEntity> businessRules = mongoTemplate.find(query, BusinessRuleEntity.class);
-		return businessRules;
-	}
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-	public List<BusinessRuleEntity> findAllByCountryOrderByIdentifierAsc(String country) {
-		Query query = new Query();	
-		query.addCriteria(Criteria.where("revoked").is(false));
-		query.addCriteria(Criteria.where("country_code").is(country));
-		query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
-		List<BusinessRuleEntity> businessRules = mongoTemplate.find(query, BusinessRuleEntity.class);
-		return businessRules;
-	}
-	
-	public BusinessRuleEntity findOneByCountryAndHash(String country, String hash) {
-		Query query = new Query();
-		query.addCriteria(Criteria.where("revoked").is(false));
-		query.addCriteria(Criteria.where("country_code").is(country));
-		query.addCriteria(Criteria.where("hash").is(hash));
-		query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
-		BusinessRuleEntity businessRule = mongoTemplate.findOne(query, BusinessRuleEntity.class);
-		return businessRule;
-	}
-	
+    public List<BusinessRuleEntity> findAllByOrderByIdentifierAsc() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("revoked").is(false));
+        query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
+        List<BusinessRuleEntity> businessRules = mongoTemplate.find(
+            query,
+            BusinessRuleEntity.class
+        );
+        return businessRules;
+    }
+
+    public List<BusinessRuleEntity> findAllByCountryOrderByIdentifierAsc(
+        String country
+    ) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("revoked").is(false));
+        query.addCriteria(Criteria.where("country_code").is(country));
+        query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
+        List<BusinessRuleEntity> businessRules = mongoTemplate.find(
+            query,
+            BusinessRuleEntity.class
+        );
+        return businessRules;
+    }
+
+    public BusinessRuleEntity findOneByCountryAndHash(
+        String country,
+        String hash
+    ) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("revoked").is(false));
+        query.addCriteria(Criteria.where("country_code").is(country));
+        query.addCriteria(Criteria.where("hash").is(hash));
+        query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
+        BusinessRuleEntity businessRule = mongoTemplate.findOne(
+            query,
+            BusinessRuleEntity.class
+        );
+        return businessRule;
+    }
 }

@@ -25,8 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import it.interop.dgc.verifier.entity.SignerInformationEntity;
+import it.interop.dgc.verifier.testdata.SignerInformationTestHelper;
 import java.io.UnsupportedEncodingException;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,203 +43,459 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import it.interop.dgc.verifier.entity.SignerInformationEntity;
-import it.interop.dgc.verifier.testdata.SignerInformationTestHelper;
-
 @AutoConfigureMockMvc
 @AutoConfigureDataMongo
 @SpringBootTest
 class SignerInformationIntegrationTest {
 
-	private static final String X_RESUME_TOKEN_HEADER = "X-RESUME-TOKEN";
-	private static final String X_KID_HEADER = "X-KID";
-	
-	private static final String URI_UPDATE_API = "/v1/dgc/signercertificate/update";
-	private static final String URI_STATUS_API = "/v1/dgc/signercertificate/status";
-	
-	@Autowired
-	private MongoTemplate mongoTemplate;
+    private static final String X_RESUME_TOKEN_HEADER = "X-RESUME-TOKEN";
+    private static final String X_KID_HEADER = "X-KID";
 
-	@Autowired
-	private MockMvc mockMvc;
+    private static final String URI_UPDATE_API =
+        "/v1/dgc/signercertificate/update";
+    private static final String URI_STATUS_API =
+        "/v1/dgc/signercertificate/status";
 
-	@BeforeEach
-	void clearRepositoryData() {
-		mongoTemplate.remove(new Query(), SignerInformationTestHelper.TEST_COLLECTION);
-	}
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-	@Test
-	void requestCertificatesFromEmptyCertificateList() throws Exception {
-		mockMvc.perform(get(URI_UPDATE_API)).andExpect(status().isNoContent());
+    @Autowired
+    private MockMvc mockMvc;
 
-	}
+    @BeforeEach
+    void clearRepositoryData() {
+        mongoTemplate.remove(
+            new Query(),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
+    }
 
-	@Test
-	void requestValidIdListFromEmptyCertificatesList() throws Exception {
-		mockMvc.perform(get(URI_STATUS_API)).andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(content().json("[]"));
-	}
+    @Test
+    void requestCertificatesFromEmptyCertificateList() throws Exception {
+        mockMvc.perform(get(URI_UPDATE_API)).andExpect(status().isNoContent());
+    }
 
-	@Test
-	void requestOneCertificate() throws Exception {
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_1_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
+    @Test
+    void requestValidIdListFromEmptyCertificatesList() throws Exception {
+        mockMvc
+            .perform(get(URI_STATUS_API))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().json("[]"));
+    }
 
-		mockMvc.perform(get(URI_UPDATE_API)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-				.andExpect(header().exists(X_KID_HEADER)).andExpect(header().exists(X_RESUME_TOKEN_HEADER))
-				.andExpect(
-						header().longValue(X_RESUME_TOKEN_HEADER, SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN))
-				.andExpect(header().stringValues(X_KID_HEADER, SignerInformationTestHelper.TEST_CERT_1_KID))
-				.andExpect(c -> assertCertStrEqual(c, SignerInformationTestHelper.TEST_CERT_1_STR));
+    @Test
+    void requestOneCertificate() throws Exception {
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_1_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
 
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_2_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
+        mockMvc
+            .perform(get(URI_UPDATE_API))
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN)
+            )
+            .andExpect(header().exists(X_KID_HEADER))
+            .andExpect(header().exists(X_RESUME_TOKEN_HEADER))
+            .andExpect(
+                header()
+                    .longValue(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN
+                    )
+            )
+            .andExpect(
+                header()
+                    .stringValues(
+                        X_KID_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_KID
+                    )
+            )
+            .andExpect(
+                c ->
+                    assertCertStrEqual(
+                        c,
+                        SignerInformationTestHelper.TEST_CERT_1_STR
+                    )
+            );
 
-		mockMvc.perform(get(URI_UPDATE_API)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-				.andExpect(header().exists(X_KID_HEADER)).andExpect(header().exists(X_RESUME_TOKEN_HEADER))
-				.andExpect(
-						header().longValue(X_RESUME_TOKEN_HEADER, SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN))
-				.andExpect(header().stringValues(X_KID_HEADER, SignerInformationTestHelper.TEST_CERT_1_KID))
-				.andExpect(c -> assertCertStrEqual(c, SignerInformationTestHelper.TEST_CERT_1_STR));
-	}
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_2_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
 
-	@Test
-	void requestValidIdList() throws Exception {
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_1_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
+        mockMvc
+            .perform(get(URI_UPDATE_API))
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN)
+            )
+            .andExpect(header().exists(X_KID_HEADER))
+            .andExpect(header().exists(X_RESUME_TOKEN_HEADER))
+            .andExpect(
+                header()
+                    .longValue(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN
+                    )
+            )
+            .andExpect(
+                header()
+                    .stringValues(
+                        X_KID_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_KID
+                    )
+            )
+            .andExpect(
+                c ->
+                    assertCertStrEqual(
+                        c,
+                        SignerInformationTestHelper.TEST_CERT_1_STR
+                    )
+            );
+    }
 
-		mockMvc.perform(get(URI_STATUS_API)).andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("[\"8xYtW2837ac=\"]"));
+    @Test
+    void requestValidIdList() throws Exception {
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_1_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
 
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_2_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
+        mockMvc
+            .perform(get(URI_STATUS_API))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().json("[\"8xYtW2837ac=\"]"));
 
-		mockMvc.perform(get(URI_STATUS_API)).andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("[\"8xYtW2837ac=\",\"EzVuT0kOpJc=\"]"));
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_2_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
 
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_3_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
+        mockMvc
+            .perform(get(URI_STATUS_API))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().json("[\"8xYtW2837ac=\",\"EzVuT0kOpJc=\"]"));
 
-		mockMvc.perform(get(URI_STATUS_API)).andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("[\"8xYtW2837ac=\",\"EzVuT0kOpJc=\",\"zoQi+KTb8LM=\"]"));
-	}
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_3_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
 
-	@Test
-	void requestCertificatesWithResumeToken() throws Exception {
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_1_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
+        mockMvc
+            .perform(get(URI_STATUS_API))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(
+                content()
+                    .json(
+                        "[\"8xYtW2837ac=\",\"EzVuT0kOpJc=\",\"zoQi+KTb8LM=\"]"
+                    )
+            );
+    }
 
-		mockMvc.perform(get(URI_UPDATE_API)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-				.andExpect(header().exists(X_KID_HEADER)).andExpect(header().exists(X_RESUME_TOKEN_HEADER))
-				.andExpect(
-						header().longValue(X_RESUME_TOKEN_HEADER, SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN))
-				.andExpect(header().stringValues(X_KID_HEADER, "8xYtW2837ac="))
-				.andExpect(c -> assertCertStrEqual(c, SignerInformationTestHelper.TEST_CERT_1_STR));
+    @Test
+    void requestCertificatesWithResumeToken() throws Exception {
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_1_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
 
-		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
-				SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN)).andExpect(status().isNoContent());
+        mockMvc
+            .perform(get(URI_UPDATE_API))
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN)
+            )
+            .andExpect(header().exists(X_KID_HEADER))
+            .andExpect(header().exists(X_RESUME_TOKEN_HEADER))
+            .andExpect(
+                header()
+                    .longValue(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN
+                    )
+            )
+            .andExpect(header().stringValues(X_KID_HEADER, "8xYtW2837ac="))
+            .andExpect(
+                c ->
+                    assertCertStrEqual(
+                        c,
+                        SignerInformationTestHelper.TEST_CERT_1_STR
+                    )
+            );
 
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_3_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_2_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
-		
+        mockMvc
+            .perform(
+                get(URI_UPDATE_API)
+                    .header(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN
+                    )
+            )
+            .andExpect(status().isNoContent());
 
-		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
-				SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-				.andExpect(header().exists(X_KID_HEADER)).andExpect(header().exists(X_RESUME_TOKEN_HEADER))
-				.andExpect(
-						header().longValue(X_RESUME_TOKEN_HEADER, SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN))
-				.andExpect(header().stringValues(X_KID_HEADER, "EzVuT0kOpJc="))
-				.andExpect(c -> assertCertStrEqual(c, SignerInformationTestHelper.TEST_CERT_2_STR));
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_3_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_2_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
 
-		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
-				SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-				.andExpect(header().exists(X_KID_HEADER)).andExpect(header().exists(X_RESUME_TOKEN_HEADER))
-				.andExpect(
-						header().longValue(X_RESUME_TOKEN_HEADER, SignerInformationTestHelper.TEST_CERT_3_RESUME_TOKEN))
-				.andExpect(header().stringValues(X_KID_HEADER, "zoQi+KTb8LM="))
-				.andExpect(c -> assertCertStrEqual(c, SignerInformationTestHelper.TEST_CERT_3_STR));
+        mockMvc
+            .perform(
+                get(URI_UPDATE_API)
+                    .header(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN
+                    )
+            )
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN)
+            )
+            .andExpect(header().exists(X_KID_HEADER))
+            .andExpect(header().exists(X_RESUME_TOKEN_HEADER))
+            .andExpect(
+                header()
+                    .longValue(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN
+                    )
+            )
+            .andExpect(header().stringValues(X_KID_HEADER, "EzVuT0kOpJc="))
+            .andExpect(
+                c ->
+                    assertCertStrEqual(
+                        c,
+                        SignerInformationTestHelper.TEST_CERT_2_STR
+                    )
+            );
 
-		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
-				SignerInformationTestHelper.TEST_CERT_3_RESUME_TOKEN)).andExpect(status().isNoContent());
+        mockMvc
+            .perform(
+                get(URI_UPDATE_API)
+                    .header(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN
+                    )
+            )
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN)
+            )
+            .andExpect(header().exists(X_KID_HEADER))
+            .andExpect(header().exists(X_RESUME_TOKEN_HEADER))
+            .andExpect(
+                header()
+                    .longValue(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_3_RESUME_TOKEN
+                    )
+            )
+            .andExpect(header().stringValues(X_KID_HEADER, "zoQi+KTb8LM="))
+            .andExpect(
+                c ->
+                    assertCertStrEqual(
+                        c,
+                        SignerInformationTestHelper.TEST_CERT_3_STR
+                    )
+            );
 
-	}
+        mockMvc
+            .perform(
+                get(URI_UPDATE_API)
+                    .header(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_3_RESUME_TOKEN
+                    )
+            )
+            .andExpect(status().isNoContent());
+    }
 
-	@Test
-	void requestCertificatesFromCertListWithRevokedCerts() throws Exception {
-		SignerInformationEntity cert2 = SignerInformationTestHelper
-				.getCert(SignerInformationTestHelper.TEST_CERT_2_KID);
-		mongoTemplate.save(cert2, SignerInformationTestHelper.TEST_COLLECTION);
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_3_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_1_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);		
+    @Test
+    void requestCertificatesFromCertListWithRevokedCerts() throws Exception {
+        SignerInformationEntity cert2 = SignerInformationTestHelper.getCert(
+            SignerInformationTestHelper.TEST_CERT_2_KID
+        );
+        mongoTemplate.save(cert2, SignerInformationTestHelper.TEST_COLLECTION);
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_3_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_1_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
 
-		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
-				SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-				.andExpect(header().exists(X_KID_HEADER)).andExpect(header().exists(X_RESUME_TOKEN_HEADER))
-				.andExpect(
-						header().longValue(X_RESUME_TOKEN_HEADER, SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN))
-				.andExpect(header().stringValues(X_KID_HEADER, SignerInformationTestHelper.TEST_CERT_2_KID))
-				.andExpect(c -> assertCertStrEqual(c, SignerInformationTestHelper.TEST_CERT_2_STR));
+        mockMvc
+            .perform(
+                get(URI_UPDATE_API)
+                    .header(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN
+                    )
+            )
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN)
+            )
+            .andExpect(header().exists(X_KID_HEADER))
+            .andExpect(header().exists(X_RESUME_TOKEN_HEADER))
+            .andExpect(
+                header()
+                    .longValue(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN
+                    )
+            )
+            .andExpect(
+                header()
+                    .stringValues(
+                        X_KID_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_2_KID
+                    )
+            )
+            .andExpect(
+                c ->
+                    assertCertStrEqual(
+                        c,
+                        SignerInformationTestHelper.TEST_CERT_2_STR
+                    )
+            );
 
-		Query query = new Query();
-		query.addCriteria(Criteria.where("id").is(SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN));
-		Update update = new Update();
-		update.set("revoked", true);
-		mongoTemplate.findAndModify(query, update, SignerInformationEntity.class);
+        Query query = new Query();
+        query.addCriteria(
+            Criteria
+                .where("id")
+                .is(SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN)
+        );
+        Update update = new Update();
+        update.set("revoked", true);
+        mongoTemplate.findAndModify(
+            query,
+            update,
+            SignerInformationEntity.class
+        );
 
-		mockMvc.perform(get(URI_UPDATE_API).header(X_RESUME_TOKEN_HEADER,
-				SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
-				.andExpect(header().exists(X_KID_HEADER)).andExpect(header().exists(X_RESUME_TOKEN_HEADER))
-				.andExpect(
-						header().longValue(X_RESUME_TOKEN_HEADER, SignerInformationTestHelper.TEST_CERT_3_RESUME_TOKEN))
-				.andExpect(header().stringValues(X_KID_HEADER, SignerInformationTestHelper.TEST_CERT_3_KID))
-				.andExpect(c -> assertCertStrEqual(c, SignerInformationTestHelper.TEST_CERT_3_STR));
-	}
+        mockMvc
+            .perform(
+                get(URI_UPDATE_API)
+                    .header(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_1_RESUME_TOKEN
+                    )
+            )
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN)
+            )
+            .andExpect(header().exists(X_KID_HEADER))
+            .andExpect(header().exists(X_RESUME_TOKEN_HEADER))
+            .andExpect(
+                header()
+                    .longValue(
+                        X_RESUME_TOKEN_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_3_RESUME_TOKEN
+                    )
+            )
+            .andExpect(
+                header()
+                    .stringValues(
+                        X_KID_HEADER,
+                        SignerInformationTestHelper.TEST_CERT_3_KID
+                    )
+            )
+            .andExpect(
+                c ->
+                    assertCertStrEqual(
+                        c,
+                        SignerInformationTestHelper.TEST_CERT_3_STR
+                    )
+            );
+    }
 
-	@Test
-	void requestValidIdListFromCertListWithRevokedCert() throws Exception {
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_1_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
-		mongoTemplate.save(SignerInformationTestHelper.getCert(SignerInformationTestHelper.TEST_CERT_3_KID),
-				SignerInformationTestHelper.TEST_COLLECTION);
-		SignerInformationEntity cert2 = SignerInformationTestHelper
-				.getCert(SignerInformationTestHelper.TEST_CERT_2_KID);
-		mongoTemplate.save(cert2, SignerInformationTestHelper.TEST_COLLECTION);
+    @Test
+    void requestValidIdListFromCertListWithRevokedCert() throws Exception {
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_1_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
+        mongoTemplate.save(
+            SignerInformationTestHelper.getCert(
+                SignerInformationTestHelper.TEST_CERT_3_KID
+            ),
+            SignerInformationTestHelper.TEST_COLLECTION
+        );
+        SignerInformationEntity cert2 = SignerInformationTestHelper.getCert(
+            SignerInformationTestHelper.TEST_CERT_2_KID
+        );
+        mongoTemplate.save(cert2, SignerInformationTestHelper.TEST_COLLECTION);
 
-		mockMvc.perform(get(URI_STATUS_API)).andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("[\"8xYtW2837ac=\",\"EzVuT0kOpJc=\",\"zoQi+KTb8LM=\"]"));
+        mockMvc
+            .perform(get(URI_STATUS_API))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(
+                content()
+                    .json(
+                        "[\"8xYtW2837ac=\",\"EzVuT0kOpJc=\",\"zoQi+KTb8LM=\"]"
+                    )
+            );
 
-		Query query = new Query();
-		query.addCriteria(Criteria.where("id").is(SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN));
-		Update update = new Update();
-		update.set("revoked", true);
-		mongoTemplate.findAndModify(query, update, SignerInformationEntity.class);
+        Query query = new Query();
+        query.addCriteria(
+            Criteria
+                .where("id")
+                .is(SignerInformationTestHelper.TEST_CERT_2_RESUME_TOKEN)
+        );
+        Update update = new Update();
+        update.set("revoked", true);
+        mongoTemplate.findAndModify(
+            query,
+            update,
+            SignerInformationEntity.class
+        );
 
-		mockMvc.perform(get(URI_STATUS_API)).andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("[\"8xYtW2837ac=\",\"zoQi+KTb8LM=\"]"));
+        mockMvc
+            .perform(get(URI_STATUS_API))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().json("[\"8xYtW2837ac=\",\"zoQi+KTb8LM=\"]"));
+    }
 
-	}
+    private void assertCertStrEqual(MvcResult result, String certStr)
+        throws UnsupportedEncodingException {
+        String resultCert = result.getResponse().getContentAsString();
 
-	private void assertCertStrEqual(MvcResult result, String certStr) throws UnsupportedEncodingException {
-		String resultCert = result.getResponse().getContentAsString();
-
-		Assertions.assertEquals(certStr, resultCert);
-
-	}
-
+        Assertions.assertEquals(certStr, resultCert);
+    }
 }

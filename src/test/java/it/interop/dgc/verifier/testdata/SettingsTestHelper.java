@@ -24,38 +24,47 @@ import it.interop.dgc.verifier.entity.SettingEntity;
 
 public class SettingsTestHelper {
 
-	public static final String TEST_COLLECTION = "settings";
-	
-	public static final String TEST_SETTINGS_1_NAME = "vaccine_start_day";
+    public static final String TEST_COLLECTION = "settings";
 
-	public static final String TEST_SETTINGS_1_TYPE = "VACCINE1";
+    public static final String TEST_SETTINGS_1_NAME = "vaccine_start_day";
+
+    public static final String TEST_SETTINGS_1_TYPE = "VACCINE1";
 
     public static final String TEST_SETTINGS_1_VALUE = "15";
-	
+
     public static final String TEST_SETTINGS_2_NAME = "vaccine_end_day";
 
     public static final String TEST_SETTINGS_2_TYPE = "VACCINE1";
 
     public static final String TEST_SETTINGS_2_VALUE = "180";
-    
-    public static final String TEST_RESPONSE_SETTING_1 = "[{\"name\":\"vaccine_start_day\",\"type\":\"VACCINE1\",\"value\":\"15\"}]";
- 
-    public static final String TEST_RESPONSE_ALL_SETTINGS = "[{\"name\":\"vaccine_start_day\",\"type\":\"VACCINE1\",\"value\":\"15\"},{\"name\":\"vaccine_end_day\",\"type\":\"VACCINE1\",\"value\":\"180\"}]";
-    
-	public static SettingEntity getSetting(int settingIndex) {
 
-		SettingEntity entity = null;
+    public static final String TEST_RESPONSE_SETTING_1 =
+        "[{\"name\":\"vaccine_start_day\",\"type\":\"VACCINE1\",\"value\":\"15\"}]";
 
-		switch (settingIndex) {
-		case 1:
-			entity = new SettingEntity(TEST_SETTINGS_1_NAME, TEST_SETTINGS_1_TYPE, TEST_SETTINGS_1_VALUE);
-			break;
-		case 2:
-			entity = new SettingEntity(TEST_SETTINGS_2_NAME, TEST_SETTINGS_1_TYPE, TEST_SETTINGS_2_VALUE);
-			break;
-		}
-		return entity;
-	}
-    
- 
+    public static final String TEST_RESPONSE_ALL_SETTINGS =
+        "[{\"name\":\"vaccine_start_day\",\"type\":\"VACCINE1\",\"value\":\"15\"},{\"name\":\"vaccine_end_day\",\"type\":\"VACCINE1\",\"value\":\"180\"}]";
+
+    public static SettingEntity getSetting(int settingIndex) {
+        SettingEntity entity = null;
+
+        switch (settingIndex) {
+            case 1:
+                entity =
+                    new SettingEntity(
+                        TEST_SETTINGS_1_NAME,
+                        TEST_SETTINGS_1_TYPE,
+                        TEST_SETTINGS_1_VALUE
+                    );
+                break;
+            case 2:
+                entity =
+                    new SettingEntity(
+                        TEST_SETTINGS_2_NAME,
+                        TEST_SETTINGS_1_TYPE,
+                        TEST_SETTINGS_2_VALUE
+                    );
+                break;
+        }
+        return entity;
+    }
 }
