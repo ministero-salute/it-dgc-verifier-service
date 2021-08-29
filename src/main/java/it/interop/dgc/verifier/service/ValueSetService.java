@@ -41,14 +41,13 @@ public class ValueSetService {
     public List<ValueSetListItemDto> getValueSetsList() {
         List<ValueSetListItemDto> valueSetItemsDto = new ArrayList<ValueSetListItemDto>();
         List<ValueSetEntity> valueSetItems = valueSetRepository.findAllByOrderByIdAsc();
-        valueSetItems.forEach(
-            valueSet ->
-                valueSetItemsDto.add(
-                    new ValueSetListItemDto(
-                        valueSet.getIdentifier(),
-                        valueSet.getHash()
-                    )
+        valueSetItems.forEach(valueSet ->
+            valueSetItemsDto.add(
+                new ValueSetListItemDto(
+                    valueSet.getIdentifier(),
+                    valueSet.getHash()
                 )
+            )
         );
         return valueSetItemsDto;
     }
