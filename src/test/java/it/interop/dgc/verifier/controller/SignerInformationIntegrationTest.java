@@ -115,12 +115,11 @@ class SignerInformationIntegrationTest {
                         SignerInformationTestHelper.TEST_CERT_1_KID
                     )
             )
-            .andExpect(
-                c ->
-                    assertCertStrEqual(
-                        c,
-                        SignerInformationTestHelper.TEST_CERT_1_STR
-                    )
+            .andExpect(c ->
+                assertCertStrEqual(
+                    c,
+                    SignerInformationTestHelper.TEST_CERT_1_STR
+                )
             );
 
         mongoTemplate.save(
@@ -152,12 +151,11 @@ class SignerInformationIntegrationTest {
                         SignerInformationTestHelper.TEST_CERT_1_KID
                     )
             )
-            .andExpect(
-                c ->
-                    assertCertStrEqual(
-                        c,
-                        SignerInformationTestHelper.TEST_CERT_1_STR
-                    )
+            .andExpect(c ->
+                assertCertStrEqual(
+                    c,
+                    SignerInformationTestHelper.TEST_CERT_1_STR
+                )
             );
     }
 
@@ -233,12 +231,11 @@ class SignerInformationIntegrationTest {
                     )
             )
             .andExpect(header().stringValues(X_KID_HEADER, "8xYtW2837ac="))
-            .andExpect(
-                c ->
-                    assertCertStrEqual(
-                        c,
-                        SignerInformationTestHelper.TEST_CERT_1_STR
-                    )
+            .andExpect(c ->
+                assertCertStrEqual(
+                    c,
+                    SignerInformationTestHelper.TEST_CERT_1_STR
+                )
             );
 
         mockMvc
@@ -286,12 +283,11 @@ class SignerInformationIntegrationTest {
                     )
             )
             .andExpect(header().stringValues(X_KID_HEADER, "EzVuT0kOpJc="))
-            .andExpect(
-                c ->
-                    assertCertStrEqual(
-                        c,
-                        SignerInformationTestHelper.TEST_CERT_2_STR
-                    )
+            .andExpect(c ->
+                assertCertStrEqual(
+                    c,
+                    SignerInformationTestHelper.TEST_CERT_2_STR
+                )
             );
 
         mockMvc
@@ -316,12 +312,11 @@ class SignerInformationIntegrationTest {
                     )
             )
             .andExpect(header().stringValues(X_KID_HEADER, "zoQi+KTb8LM="))
-            .andExpect(
-                c ->
-                    assertCertStrEqual(
-                        c,
-                        SignerInformationTestHelper.TEST_CERT_3_STR
-                    )
+            .andExpect(c ->
+                assertCertStrEqual(
+                    c,
+                    SignerInformationTestHelper.TEST_CERT_3_STR
+                )
             );
 
         mockMvc
@@ -382,12 +377,11 @@ class SignerInformationIntegrationTest {
                         SignerInformationTestHelper.TEST_CERT_2_KID
                     )
             )
-            .andExpect(
-                c ->
-                    assertCertStrEqual(
-                        c,
-                        SignerInformationTestHelper.TEST_CERT_2_STR
-                    )
+            .andExpect(c ->
+                assertCertStrEqual(
+                    c,
+                    SignerInformationTestHelper.TEST_CERT_2_STR
+                )
             );
 
         Query query = new Query();
@@ -432,12 +426,11 @@ class SignerInformationIntegrationTest {
                         SignerInformationTestHelper.TEST_CERT_3_KID
                     )
             )
-            .andExpect(
-                c ->
-                    assertCertStrEqual(
-                        c,
-                        SignerInformationTestHelper.TEST_CERT_3_STR
-                    )
+            .andExpect(c ->
+                assertCertStrEqual(
+                    c,
+                    SignerInformationTestHelper.TEST_CERT_3_STR
+                )
             );
     }
 

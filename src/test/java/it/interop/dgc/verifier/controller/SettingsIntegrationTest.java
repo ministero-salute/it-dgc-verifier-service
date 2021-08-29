@@ -81,12 +81,11 @@ class SettingsIntegrationTest {
             .andExpect(
                 content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
             )
-            .andExpect(
-                c ->
-                    assertSettingsStrEqual(
-                        c,
-                        SettingsTestHelper.TEST_RESPONSE_SETTING_1
-                    )
+            .andExpect(c ->
+                assertSettingsStrEqual(
+                    c,
+                    SettingsTestHelper.TEST_RESPONSE_SETTING_1
+                )
             );
 
         mongoTemplate.save(
@@ -100,12 +99,11 @@ class SettingsIntegrationTest {
             .andExpect(
                 content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
             )
-            .andExpect(
-                c ->
-                    assertSettingsStrEqual(
-                        c,
-                        SettingsTestHelper.TEST_RESPONSE_ALL_SETTINGS
-                    )
+            .andExpect(c ->
+                assertSettingsStrEqual(
+                    c,
+                    SettingsTestHelper.TEST_RESPONSE_ALL_SETTINGS
+                )
             );
     }
 

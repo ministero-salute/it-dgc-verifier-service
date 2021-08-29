@@ -43,16 +43,15 @@ public class BusinessRuleService {
     public List<BusinessRuleListItemDto> getBusinessRulesList() {
         List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<BusinessRuleListItemDto>();
         List<BusinessRuleEntity> rulesItems = businessRuleRepository.findAllByOrderByIdentifierAsc();
-        rulesItems.forEach(
-            rulesItem ->
-                businessRuleListItemDto.add(
-                    new BusinessRuleListItemDto(
-                        rulesItem.getIdentifier(),
-                        rulesItem.getVersion(),
-                        rulesItem.getCountry(),
-                        rulesItem.getHash()
-                    )
+        rulesItems.forEach(rulesItem ->
+            businessRuleListItemDto.add(
+                new BusinessRuleListItemDto(
+                    rulesItem.getIdentifier(),
+                    rulesItem.getVersion(),
+                    rulesItem.getCountry(),
+                    rulesItem.getHash()
                 )
+            )
         );
 
         return businessRuleListItemDto;
@@ -68,16 +67,15 @@ public class BusinessRuleService {
         List<BusinessRuleEntity> rulesItems = businessRuleRepository.findAllByCountryOrderByIdentifierAsc(
             country.toUpperCase(Locale.ROOT)
         );
-        rulesItems.forEach(
-            rulesItem ->
-                businessRuleListItemDto.add(
-                    new BusinessRuleListItemDto(
-                        rulesItem.getIdentifier(),
-                        rulesItem.getVersion(),
-                        rulesItem.getCountry(),
-                        rulesItem.getHash()
-                    )
+        rulesItems.forEach(rulesItem ->
+            businessRuleListItemDto.add(
+                new BusinessRuleListItemDto(
+                    rulesItem.getIdentifier(),
+                    rulesItem.getVersion(),
+                    rulesItem.getCountry(),
+                    rulesItem.getHash()
                 )
+            )
         );
 
         return businessRuleListItemDto;
