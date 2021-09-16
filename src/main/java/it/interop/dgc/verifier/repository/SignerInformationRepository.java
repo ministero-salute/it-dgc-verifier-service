@@ -34,11 +34,10 @@ public class SignerInformationRepository {
         query.addCriteria(Criteria.where("revoked").is(false));
         query.addCriteria(Criteria.where("certificate_type").is("DSC"));
         query.with(Sort.by(Sort.Direction.ASC, "id"));
-        SignerInformationEntity signerInformation = mongoTemplate.findOne(
+        return mongoTemplate.findOne(
             query,
             SignerInformationEntity.class
         );
-        return signerInformation;
     }
 
     public SignerInformationEntity findFirstValidByIdGreaterThanOrderByIdAsc(
@@ -49,11 +48,10 @@ public class SignerInformationRepository {
         query.addCriteria(Criteria.where("certificate_type").is("DSC"));
         query.addCriteria(Criteria.where("id").gt(resumeId));
         query.with(Sort.by(Sort.Direction.ASC, "id"));
-        SignerInformationEntity signerInformation = mongoTemplate.findOne(
+        return mongoTemplate.findOne(
             query,
             SignerInformationEntity.class
         );
-        return signerInformation;
     }
 
     public List<SignerInformationEntity> findAllValidByOrderByIdAsc() {
@@ -61,10 +59,9 @@ public class SignerInformationRepository {
         query.addCriteria(Criteria.where("revoked").is(false));
         query.addCriteria(Criteria.where("certificate_type").is("DSC"));
         query.with(Sort.by(Sort.Direction.ASC, "id"));
-        List<SignerInformationEntity> signerInformationList = mongoTemplate.find(
+        return mongoTemplate.find(
             query,
             SignerInformationEntity.class
         );
-        return signerInformationList;
     }
 }
