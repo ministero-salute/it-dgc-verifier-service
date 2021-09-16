@@ -1,6 +1,6 @@
 /*-
  * ---license-start
- * EU Digital Green Certificate Gateway Service / dgc-gateway
+ * eu-digital-green-certificates / dgca-businessrule-service
  * ---
  * Copyright (C) 2021 T-Systems International GmbH and all other contributors
  * ---
@@ -20,43 +20,43 @@
 
 package it.interop.dgc.verifier.entity;
 
-import it.interop.dgc.verifier.enums.CertificateType;
-import lombok.AllArgsConstructor;
+import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@Document(collection = "signer_information")
-@AllArgsConstructor
 @NoArgsConstructor
-public class SignerInformationEntity {
+@Document(collection = "valuesets")
+public class ValueSetEntity implements Serializable {
 
-    @Field(name = "id")
-    private Long id;
-
-    /**
-     * Unique Identifier of the cert.
-     */
-    @Field(name = "kid")
-    private String kid;
+    private static final long serialVersionUID = 1822947920566700188L;
 
     /**
-     * Base64 encoded certificate raw data.
+     * SHA-256 Thumbprint of the valueset (hex encoded).
      */
+    @Field(name = "hash")
+    private String hash;
+
+    @Field(name = "identifier_name")
+    private String identifier;
+
     @Field(name = "raw_data")
-    String rawData;
+    private String rawData;
 
-    /**
-     * CertificateType enums.
-     */
-    @Field(name = "certificate_type")
-    private CertificateType certificateType;
+    @CreatedDate
+    @Field(name = "created_at")
+    private Date createdAt;
 
-    /**
-     * Revoked flag
-     */
-    @Field("revoked")
-    private boolean revoked;
+    @Field(name = "batch_tag")
+    private String downloadBatchTag;
+
+    public ValueSetEntity(String hash, String identifier, String data) {
+        this.hash = hash;
+        this.identifier = identifier;
+        this.rawData = data;
+    }
 }

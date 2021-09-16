@@ -20,16 +20,13 @@
 
 package it.interop.dgc.verifier.service;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import it.interop.dgc.verifier.entity.SignerInformationEntity;
 import it.interop.dgc.verifier.repository.SignerInformationRepository;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
@@ -37,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 public class SignerInformationService {
 
     private final SignerInformationRepository signerInformationRepository;
-
 
     /**
      * Method to query the db for a certificate with a resume token.
@@ -47,13 +43,14 @@ public class SignerInformationService {
      */
     public SignerInformationEntity getCertificate(Long resumeToken) {
         log.info("getCertificate - resumeToken {}", resumeToken);
-    	if (resumeToken == null) {
+        if (resumeToken == null) {
             return signerInformationRepository.findFirstValidOrderByIdAsc();
         } else {
-            return signerInformationRepository.findFirstValidByIdGreaterThanOrderByIdAsc(resumeToken);
+            return signerInformationRepository.findFirstValidByIdGreaterThanOrderByIdAsc(
+                resumeToken
+            );
         }
     }
-
 
     /**
      * Method to query the db for a list of kid from all certificates.
@@ -66,14 +63,16 @@ public class SignerInformationService {
         List<SignerInformationEntity> validSignerInformationList = signerInformationRepository.findAllValidByOrderByIdAsc();
 
         if (validSignerInformationList != null) {
-        	log.info("getListOfValidKids - validIds count {}", validSignerInformationList.size());
-        	for (SignerInformationEntity validSignerInformation : validSignerInformationList) {
+            log.info(
+                "getListOfValidKids - validIds count {}",
+                validSignerInformationList.size()
+            );
+            for (SignerInformationEntity validSignerInformation : validSignerInformationList) {
                 responseArray.add(validSignerInformation.getKid());
             }
         }
         log.info("getListOfValidKids - response Kid {}", responseArray);
-    	
+
         return responseArray;
     }
-
 }

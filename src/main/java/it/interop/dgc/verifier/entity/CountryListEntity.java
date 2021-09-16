@@ -1,6 +1,6 @@
 /*-
  * ---license-start
- * EU Digital Green Certificate Gateway Service / dgc-gateway
+ * eu-digital-green-certificates / dgca-businessrule-service
  * ---
  * Copyright (C) 2021 T-Systems International GmbH and all other contributors
  * ---
@@ -20,43 +20,33 @@
 
 package it.interop.dgc.verifier.entity;
 
-import it.interop.dgc.verifier.enums.CertificateType;
-import lombok.AllArgsConstructor;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@Document(collection = "signer_information")
-@AllArgsConstructor
 @NoArgsConstructor
-public class SignerInformationEntity {
+@Document(collection = "country_list")
+public class CountryListEntity implements Serializable {
+
+    private static final long serialVersionUID = -3383002566473192925L;
 
     @Field(name = "id")
-    private Long id;
+    private Long countryListId;
 
-    /**
-     * Unique Identifier of the cert.
-     */
-    @Field(name = "kid")
-    private String kid;
-
-    /**
-     * Base64 encoded certificate raw data.
-     */
     @Field(name = "raw_data")
-    String rawData;
+    private String rawData;
 
-    /**
-     * CertificateType enums.
-     */
-    @Field(name = "certificate_type")
-    private CertificateType certificateType;
+    @Field(name = "hash")
+    private String hash;
 
-    /**
-     * Revoked flag
-     */
-    @Field("revoked")
-    private boolean revoked;
+    @Field(name = "signature")
+    private String signature;
+
+    public CountryListEntity(Long countryListId, String rawData) {
+        this.countryListId = countryListId;
+        this.rawData = rawData;
+    }
 }

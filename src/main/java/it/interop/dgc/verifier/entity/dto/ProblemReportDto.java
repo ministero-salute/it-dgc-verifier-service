@@ -1,6 +1,6 @@
 /*-
  * ---license-start
- * EU Digital Green Certificate Gateway Service / dgc-gateway
+ * eu-digital-green-certificates / dgca-businessrule-service
  * ---
  * Copyright (C) 2021 T-Systems International GmbH and all other contributors
  * ---
@@ -17,11 +17,32 @@
  * limitations under the License.
  * ---license-end
  */
-package it.interop.dgc.verifier.enums;
 
-public enum CertificateType {
-    AUTHENTICATION,
-    UPLOAD,
-    CSCA,
-    DSC,
+package it.interop.dgc.verifier.entity.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Schema(
+    name = "ProblemReport",
+    type = "object",
+    example = "{\n" +
+    "\"code\":\"0x001\",\n" +
+    "\"problem\":\"[PROBLEM]\",\n" +
+    "\"sent value\":\"[Sent Value]\",\n" +
+    "\"details\":\"...\"\n" +
+    "}"
+)
+@Data
+@AllArgsConstructor
+public class ProblemReportDto {
+
+    private String code;
+
+    private String problem;
+
+    private String sendValue;
+
+    private String details;
 }

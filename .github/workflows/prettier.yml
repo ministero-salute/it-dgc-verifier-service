@@ -1,0 +1,32 @@
+name: prettify code
+
+on:
+  schedule:
+    - cron:  '30 15 * * *'
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - run: npm install prettier-plugin-java --save-dev
+      - run: npx prettier --write "**/*.java"
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v7.2.1
+        with:
+          author_name: Andrea Stagi
+          author_email: stagi.andrea@gmail.com
+          message: 'chore: prettify code'
+          add: '.'
+          push: false
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: "chore: prettify code"
+          branch: fix/prettify_code

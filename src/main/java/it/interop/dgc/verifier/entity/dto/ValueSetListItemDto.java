@@ -1,6 +1,6 @@
 /*-
  * ---license-start
- * EU Digital Green Certificate Gateway Service / dgc-gateway
+ * eu-digital-green-certificates / dgca-businessrule-service
  * ---
  * Copyright (C) 2021 T-Systems International GmbH and all other contributors
  * ---
@@ -17,11 +17,23 @@
  * limitations under the License.
  * ---license-end
  */
-package it.interop.dgc.verifier.enums;
 
-public enum CertificateType {
-    AUTHENTICATION,
-    UPLOAD,
-    CSCA,
-    DSC,
+package it.interop.dgc.verifier.entity.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Value;
+
+@Schema(
+    name = "ValueSetListItem",
+    type = "object",
+    example = "{" +
+    "\"id\":\"disease-agent-targeted\"," +
+    "\"hash\":\"d4bfba1fd9f2eb29dfb2938220468ccb0b481d348f192e6015d36da4b911a83a\"," +
+    "}"
+)
+@Value
+public class ValueSetListItemDto {
+
+    String id;
+    String hash;
 }

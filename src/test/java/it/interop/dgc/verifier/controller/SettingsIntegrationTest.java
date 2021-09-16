@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import it.interop.dgc.verifier.testdata.SettingsTestHelper;
 import java.io.UnsupportedEncodingException;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,54 +39,78 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import it.interop.dgc.verifier.testdata.SettingsTestHelper;
-
 @AutoConfigureMockMvc
 @AutoConfigureDataMongo
 @SpringBootTest
 class SettingsIntegrationTest {
 
-	private static final String URI_SETTINGS_API = "/v1/dgc/settings";
-	
-	@Autowired
-	private MongoTemplate mongoTemplate;
+    private static final String URI_SETTINGS_API = "/v1/dgc/settings";
 
-	@Autowired
-	private MockMvc mockMvc;
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-	@BeforeEach
-	void clearRepositoryData() {
-		mongoTemplate.remove(new Query(), SettingsTestHelper.TEST_COLLECTION);
-	}
+    @Autowired
+    private MockMvc mockMvc;
 
-	@Test
-	void requestSettingsFromEmptySettingsList() throws Exception {
-		mockMvc.perform(get(URI_SETTINGS_API)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("[]"));
-	}
+    @BeforeEach
+    void clearRepositoryData() {
+        mongoTemplate.remove(new Query(), SettingsTestHelper.TEST_COLLECTION);
+    }
 
-	@Test
-	void requestSettingsFromNotEmptySettingsList() throws Exception {
-		mongoTemplate.save(SettingsTestHelper.getSetting(1), SettingsTestHelper.TEST_COLLECTION);
+    @Test
+    void requestSettingsFromEmptySettingsList() throws Exception {
+        mockMvc
+            .perform(get(URI_SETTINGS_API))
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(content().json("[]"));
+    }
 
-		mockMvc.perform(get(URI_SETTINGS_API)).andExpect(status().isOk())
-				.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-				.andExpect(c -> assertSettingsStrEqual(c, SettingsTestHelper.TEST_RESPONSE_SETTING_1));
+    @Test
+    void requestSettingsFromNotEmptySettingsList() throws Exception {
+        mongoTemplate.save(
+            SettingsTestHelper.getSetting(1),
+            SettingsTestHelper.TEST_COLLECTION
+        );
 
-		mongoTemplate.save(SettingsTestHelper.getSetting(2), SettingsTestHelper.TEST_COLLECTION);
+        mockMvc
+            .perform(get(URI_SETTINGS_API))
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(c ->
+                assertSettingsStrEqual(
+                    c,
+                    SettingsTestHelper.TEST_RESPONSE_SETTING_1
+                )
+            );
 
-		mockMvc.perform(get(URI_SETTINGS_API)).andExpect(status().isOk())
-		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-		.andExpect(c -> assertSettingsStrEqual(c, SettingsTestHelper.TEST_RESPONSE_ALL_SETTINGS));
+        mongoTemplate.save(
+            SettingsTestHelper.getSetting(2),
+            SettingsTestHelper.TEST_COLLECTION
+        );
 
-	}
+        mockMvc
+            .perform(get(URI_SETTINGS_API))
+            .andExpect(status().isOk())
+            .andExpect(
+                content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(c ->
+                assertSettingsStrEqual(
+                    c,
+                    SettingsTestHelper.TEST_RESPONSE_ALL_SETTINGS
+                )
+            );
+    }
 
-	private void assertSettingsStrEqual(MvcResult result, String responseStr) throws UnsupportedEncodingException {
-		String resultCert = result.getResponse().getContentAsString();
+    private void assertSettingsStrEqual(MvcResult result, String responseStr)
+        throws UnsupportedEncodingException {
+        String resultCert = result.getResponse().getContentAsString();
 
-		Assertions.assertEquals(responseStr, resultCert);
-
-	}
-
+        Assertions.assertEquals(responseStr, resultCert);
+    }
 }
