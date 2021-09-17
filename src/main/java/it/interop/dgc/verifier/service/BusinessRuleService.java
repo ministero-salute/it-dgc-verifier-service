@@ -41,7 +41,7 @@ public class BusinessRuleService {
      *
      */
     public List<BusinessRuleListItemDto> getBusinessRulesList() {
-        List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<BusinessRuleListItemDto>();
+        List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<>();
         List<BusinessRuleEntity> rulesItems = businessRuleRepository.findAllByOrderByIdentifierAsc();
         rulesItems.forEach(rulesItem ->
             businessRuleListItemDto.add(
@@ -63,7 +63,7 @@ public class BusinessRuleService {
     public List<BusinessRuleListItemDto> getBusinessRulesListForCountry(
         String country
     ) {
-        List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<BusinessRuleListItemDto>();
+        List<BusinessRuleListItemDto> businessRuleListItemDto = new ArrayList<>();
         List<BusinessRuleEntity> rulesItems = businessRuleRepository.findAllByCountryOrderByIdentifierAsc(
             country.toUpperCase(Locale.ROOT)
         );

@@ -39,7 +39,7 @@ public class ValueSetService {
      *  Gets list of all value set ids and hashes.
      */
     public List<ValueSetListItemDto> getValueSetsList() {
-        List<ValueSetListItemDto> valueSetItemsDto = new ArrayList<ValueSetListItemDto>();
+        List<ValueSetListItemDto> valueSetItemsDto = new ArrayList<>();
         List<ValueSetEntity> valueSetItems = valueSetRepository.findAllByOrderByIdAsc();
         valueSetItems.forEach(valueSet ->
             valueSetItemsDto.add(

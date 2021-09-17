@@ -38,20 +38,12 @@ public class ValueSetRepository {
     public List<ValueSetEntity> findAllByOrderByIdAsc() {
         Query query = new Query();
         query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
-        List<ValueSetEntity> valueSets = mongoTemplate.find(
-            query,
-            ValueSetEntity.class
-        );
-        return valueSets;
+        return mongoTemplate.find(query, ValueSetEntity.class);
     }
 
     public ValueSetEntity findOneByHash(String hash) {
         Query query = new Query();
         query.addCriteria(Criteria.where("hash").is(hash));
-        ValueSetEntity valueSet = mongoTemplate.findOne(
-            query,
-            ValueSetEntity.class
-        );
-        return valueSet;
+        return mongoTemplate.findOne(query, ValueSetEntity.class);
     }
 }
