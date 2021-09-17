@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +27,18 @@ import it.interop.dgc.verifier.entity.dto.DRLDTO;
 import it.interop.dgc.verifier.entity.dto.DeltaResponseDTO;
 import it.interop.dgc.verifier.entity.dto.DrlResponseDTO;
 import it.interop.dgc.verifier.exceptions.BusinessException;
+import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
 import it.interop.dgc.verifier.exceptions.ValidationException;
 import it.interop.dgc.verifier.service.DRLSRV;
 import it.interop.dgc.verifier.utils.ChunkUtility;
 import it.interop.dgc.verifier.utils.Validation;
+import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
 @RequestMapping(path = "/v1/dgc/drl")
 @Tag(name = "Servizio dei Certificati")
+@Slf4j
 public class DrlController {
 
 	@Autowired
@@ -61,7 +65,7 @@ public class DrlController {
 	    
 	    Validation.isValidVersion(version);
 	    DRLDTO drlDTO = drlSRV.getDRL(version,false); 
-	    return buildOutputDrl(drlDTO, chunk,false);
+	    return buildOutputDrl(drlDTO, chunk,false,version);
 	}
 
 	 
@@ -79,31 +83,31 @@ public class DrlController {
                             @ApiResponse(responseCode = "400", description = "Bad Request"),
                             @ApiResponse(responseCode = "404", description = "Record not found"),
                             @ApiResponse(responseCode = "500", description = "Internal Server Error") })
-	public DrlResponseDTO checkDRL(final @RequestParam(required = true, name = "version") Long version, @RequestParam(required = false, name = "chunk") Integer chunk, HttpServletRequest request) { 
+	public DrlResponseDTO checkDRL(final @RequestParam(required = false, name = "version") Long version, @RequestParam(required = false, name = "chunk") Integer chunk, HttpServletRequest request) { 
 
 	    Validation.isValidVersion(version);
 	    DRLDTO drlDTO = drlSRV.getDRL(version,true); 
-	    return buildOutputDrl(drlDTO, chunk,true); 
+	    return buildOutputDrl(drlDTO, chunk,true,version); 
 	}
 
-	private DrlResponseDTO buildOutputDrl(DRLDTO drlDTO,Integer chunk, boolean isIspettiva) {
-	    DrlResponseDTO output = null;
+	private DrlResponseDTO buildOutputDrl(DRLDTO drlDTO,Integer chunk, boolean isIspettiva, Long version) {
+        DrlResponseDTO output = null;
 
-	    //Se chunk non mi viene dato lo setto al primo elemento
-	    if(chunk==null) {
+        //Se chunk non mi viene dato lo setto al primo elemento
+        if(chunk==null) {
             chunk = 1;
         }
          
-	    if(drlDTO.getCrl()!=null) { 
-	        output = buildOutputSnap(drlDTO, chunk, isIspettiva); 
-	    } else if(drlDTO.getDeltaVers()!=null) {
-	        output = buildOutputDelta(drlDTO, chunk, isIspettiva);
-	    }
+        if(drlDTO.getCrl()!=null) { 
+            output = buildOutputSnap(drlDTO, chunk, isIspettiva,version); 
+        } else if(drlDTO.getDeltaVers()!=null) {
+            output = buildOutputDelta(drlDTO, chunk, isIspettiva);
+        }
 
-	    return output; 
-	}
+        return output; 
+    }
 
-    private DrlResponseDTO buildOutputDelta(DRLDTO drlDTO, Integer chunk, boolean isIspettiva) {
+	private DrlResponseDTO buildOutputDelta(DRLDTO drlDTO, Integer chunk, boolean isIspettiva) {
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getDeltaVers().getId());
         output.setFromVersion(drlDTO.getDeltaVers().getFromVersion());
@@ -135,12 +139,13 @@ public class DrlController {
             output.setNumDiDelete(respDelt.getDeletions().size());
 
             output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte());
-            output.setSizeSingleChunkInByte(chunkDTO.getSizeSingleChunkInByte());
+            output.setTotalChunk(chunkDTO.getSizeTotaliDeiChunk());
         } else {
             output.setChunk(chunk);
             output.setLastChunk(chunkDTO.getSizeTotaliDeiChunk());
             output.setDelta(respDelt);
         }
+        output.setSizeSingleChunkInByte(chunkDTO.getSizeSingleChunkInByte());
         return output;
     }
 
@@ -152,33 +157,46 @@ public class DrlController {
      * @param isIspettiva             isIspettiva
      * @return                        DrlResponseDTO
      */
-    private DrlResponseDTO buildOutputSnap(DRLDTO drlDTO, Integer chunk, boolean isIspettiva) {
+    private DrlResponseDTO buildOutputSnap(DRLDTO drlDTO, Integer chunk, boolean isIspettiva, Long version) {
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getCrl().getId());
-        output.setVersion(drlDTO.getCrl().getVersion());
         
+       
 
         if(isIspettiva) {
             output.setNumDiAdd(0);
+            output.setTotalSizeInByte(0L);          
+            output.setSizeSingleChunkInByte(0L); 
+            output.setVersion(drlDTO.getCrl().getVersion());
+            output.setTotalChunk(0);
+            output.setChunk(0);
         } else {
             output.setCreationDate(drlDTO.getCrl().getCreationDate());
             output.setRevokedUcvi(new ArrayList<>());
+            output.setVersion(drlDTO.getCrl().getVersion());
         }
+        
+        if(version!=null) {
+            output.setFromVersion(version);
+        }    
  
         ChunkDTO chunkDTO = null;
         if(drlDTO.getCrl().getRevokedUcvi()!=null && !drlDTO.getCrl().getRevokedUcvi().isEmpty()) {
             chunkDTO = getListChunk(drlDTO.getCrl().getRevokedUcvi(),chunk); 
             output.setChunk(chunk);
+
             if(isIspettiva) {
                 output.setNumDiAdd(drlDTO.getCrl().getRevokedUcvi().size());
-                output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte());          
-                output.setSizeSingleChunkInByte(chunkDTO.getSizeSingleChunkInByte());
+                output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte()); 
+//                output.setVersion(drlDTO.getCrl().getVersion());
+                output.setTotalChunk(chunkDTO.getSizeTotaliDeiChunk());
             } else {
                 output.setLastChunk(chunkDTO.getSizeTotaliDeiChunk());
                 output.setRevokedUcvi(chunkDTO.getListChunk());
                 output.setFirstElementInChunk(chunkDTO.getListChunk().get(0));
                 output.setLastElementInChunk(chunkDTO.getListChunk().get(chunkDTO.getListChunk().size()-1));
             }
+            output.setSizeSingleChunkInByte(chunkDTO.getSizeSingleChunkInByte());
             
         }
         return output;
@@ -195,7 +213,7 @@ public class DrlController {
 	    try {
 	        Object[] vettChunk = out.toArray(); 
             if(chunk > vettChunk.length || chunk<=0) {
-                throw new ValidationException("Chunk non esistente");
+                throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","Chunk non esistente",null,null); 
             }
             
 	        List<Object> listAllChunk = Arrays.asList(vettChunk);
@@ -214,8 +232,11 @@ public class DrlController {
 	        chunkList.addAll((List<String>) vettChunkSingle); 
 
 	        sizeSingleChunkByte = ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
-	    } catch(Exception ex) {
-//	        LOGGER.error("Errore nel calcolo dei chunk : ",ex);	        
+	    } catch (DgcaBusinessRulesResponseException ex) {
+            log.error("Chunk non esistente : ",ex);            
+            throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","Chunk non esistente",null,null);
+        } catch (Exception ex) {
+	        log.error("Errore nel calcolo dei chunk : ",ex);	        
 	        throw new BusinessException("Errore nel calcolo dei chunk : "+ex);
 	    }
 	     

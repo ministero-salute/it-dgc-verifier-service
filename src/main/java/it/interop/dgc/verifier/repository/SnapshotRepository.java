@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import it.interop.dgc.verifier.entity.SnapshotETY;
 import it.interop.dgc.verifier.exceptions.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -19,13 +20,9 @@ import it.interop.dgc.verifier.exceptions.BusinessException;
  *
  */
 @Repository
+@Slf4j
 public class SnapshotRepository {
-
-	/**
-	 * Logger.
-	 */
-//	private static final ALogger LOGGER = ALogger.getLogger(SnapshotRepository.class);
-
+  
 	/**
 	 * Mongo template.
 	 */
@@ -65,7 +62,7 @@ public class SnapshotRepository {
 				output = listOut.get(0);
 			}
 		} catch (final Exception ex) {
-//			LOGGER.error("Errore durante il recupero dello snapshot per versione", ex);
+			log.error("Errore durante il recupero dello snapshot per versione", ex);
 			throw new BusinessException("Errore durante il recupero dello snapshot per versione", ex);
 		}
 		return output;				 
@@ -78,7 +75,7 @@ public class SnapshotRepository {
 			query.addCriteria(Criteria.where("version").lt(version).and("flag_archived").is(false));
 			output = mongoTemplate.find(query, SnapshotETY.class);
 		} catch (final Exception ex) {
-//			LOGGER.error("Errore durante il recupero degli snapshot precedenti", ex);
+		    log.error("Errore durante il recupero degli snapshot precedenti", ex);
 			throw new BusinessException("Errore durante il recupero degli snapshot precedenti", ex);
 		}
 		return output;				 
@@ -94,7 +91,7 @@ public class SnapshotRepository {
 		try {
 			output = mongoTemplate.save(output);	
 		} catch (final Exception ex) {
-//			LOGGER.error("Errore durante il salvataggio di uno snapshot", ex);
+		    log.error("Errore durante il salvataggio di uno snapshot", ex);
 			throw new BusinessException("Errore durante il salvataggio di uno snapshot", ex);
 		}
 		return output;
@@ -118,7 +115,7 @@ public class SnapshotRepository {
                 output = listOut.get(0);
             }
         } catch (final Exception ex) {
-//            LOGGER.error("Errore durante il recupero dello snapshot per versione", ex);
+            log.error("Errore durante il recupero dello snapshot per versione", ex);
             throw new BusinessException("Errore durante il recupero dello snapshot per versione", ex);
         }
         return output;               

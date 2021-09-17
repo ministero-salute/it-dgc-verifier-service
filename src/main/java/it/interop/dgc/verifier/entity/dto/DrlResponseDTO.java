@@ -91,5 +91,10 @@ public class DrlResponseDTO implements Serializable {
      * Single size in byte.
      */ 
     private Long sizeSingleChunkInByte;
+    
+    /**
+     * Total chunk.
+     */ 
+    private Integer totalChunk;
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import it.interop.dgc.verifier.entity.DeltaETY;
 import it.interop.dgc.verifier.exceptions.BusinessException;
 import it.interop.dgc.verifier.utils.Validation;
+import lombok.extern.slf4j.Slf4j;
 
 
 
@@ -20,6 +21,7 @@ import it.interop.dgc.verifier.utils.Validation;
  *
  */
 @Repository
+@Slf4j
 public class DeltaRepository {
 
 
@@ -39,7 +41,7 @@ public class DeltaRepository {
 				output = listOut.get(0);
 			}
 		} catch (final Exception ex) {
-//			LOGGER.error("Errore durante il recupero del delta per coppia di versioni", ex);
+			log.error("Errore durante il recupero del delta per coppia di versioni", ex);
 			throw new BusinessException("Errore durante il recupero del delta per coppia di versioni", ex);
 		}
 		return output;				 
@@ -57,7 +59,7 @@ public class DeltaRepository {
 			}
 			output = mongoTemplate.save(delta);	
 		} catch (final Exception ex) {
-//			LOGGER.error("Errore durante il salvataggio di un delta", ex);
+		    log.error("Errore durante il salvataggio di un delta", ex);
 			throw new BusinessException("Errore durante il salvataggio di un delta", ex);
 		}
 		return output;
