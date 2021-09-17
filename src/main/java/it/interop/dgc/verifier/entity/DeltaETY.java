@@ -12,9 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Model per il salvataggio di un pass.
- */
 @Getter
 @Setter
 @Document(collection = "delta")
@@ -26,25 +23,25 @@ public class DeltaETY {
 
 
     /**
-     * Pk documento.
+     * Pk document.
      */
     @Id
     private String id;
 
     /**
-     * Versione di partenza.
+     * from_version.
      */
     @Field(name = "from_version")
     private Long fromVersion;
 
     /**
-     * Versione di arrivo.
+     * to_version.
      */
     @Field(name = "to_version")
     private Long toVersion;
 
     /**
-     * Operazioni da eseguire per colmare il delta.
+     * delta.
      */
     @Field(name = "delta")
     private DIDTO delta;

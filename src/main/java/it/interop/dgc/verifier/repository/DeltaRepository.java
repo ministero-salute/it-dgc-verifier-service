@@ -39,7 +39,6 @@ public class DeltaRepository {
 				output = listOut.get(0);
 			}
 		} catch (final Exception ex) {
-//			LOGGER.error("Errore durante il recupero del delta per coppia di versioni", ex);
 			throw new BusinessException("Errore durante il recupero del delta per coppia di versioni", ex);
 		}
 		return output;				 
@@ -50,14 +49,12 @@ public class DeltaRepository {
 		try {
 			Validation.mustBeTrue(delta.getId() == null, "Il documento non deve avere l'id valorizzato.");
 			
-			//Verifica se presente il delta, se lo è recupero id e lo uso per l'upsert con i nuovi dati.
 			DeltaETY oldDelta = getByVersions(delta.getFromVersion(), delta.getToVersion());
 			if (oldDelta != null) {
 				delta.setId(oldDelta.getId());
 			}
 			output = mongoTemplate.save(delta);	
 		} catch (final Exception ex) {
-//			LOGGER.error("Errore durante il salvataggio di un delta", ex);
 			throw new BusinessException("Errore durante il salvataggio di un delta", ex);
 		}
 		return output;

@@ -17,9 +17,6 @@ import com.mongodb.client.MongoCollection;
 @Component
 public abstract class AbstractMongoRepository<T, K> {
 
-	/**
-	 * Template per accedere a MongoDB.
-	 */
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -34,7 +31,6 @@ public abstract class AbstractMongoRepository<T, K> {
 	}
 
 	/**
-	 * Rimuovi entità.
 	 * 
 	 * @param entity	entità da rimuovere
 	 */
@@ -43,7 +39,6 @@ public abstract class AbstractMongoRepository<T, K> {
 	}
 
 	/**
-	 * Seleziona per id.
 	 * 
 	 * @param primaryKey	id
 	 * @return				entità selezionata
@@ -53,7 +48,6 @@ public abstract class AbstractMongoRepository<T, K> {
 	}
 
 	/**
-	 * Seleziona tutte entità.
 	 * 
 	 * @return	entità risultati
 	 */
@@ -62,7 +56,6 @@ public abstract class AbstractMongoRepository<T, K> {
 	}
 	
 	/**
-	 * Creazione collezione.
 	 * 
 	 * @return	collezione
 	 */
@@ -71,7 +64,6 @@ public abstract class AbstractMongoRepository<T, K> {
 	}
 	
 	/**
-	 * Recupera lista collezioni.
 	 * 
 	 * @return	lista collezioni
 	 */

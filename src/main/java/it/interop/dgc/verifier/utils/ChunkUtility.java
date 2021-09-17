@@ -13,25 +13,13 @@ import it.interop.dgc.verifier.exceptions.BusinessException;
  * 
  * @author vincenzoingenito
  *
- *  Utility gestione chunk.
  */
 public final class ChunkUtility { 
 
-    /**
-     * Logger.
-     */
-//    private static final ALogger LOGGER = ALogger.getLogger(ChunkUtility.class);
-
-
-    /**
-     * Costruttore.
-     */
     private ChunkUtility() {
-        //Questo metodo è lasciato intenzionalmente vuoto.
     }
 
     /**
-     * Metodo che data una lista e una dimensione massima calcola i chunk.
      * 
      * @param source   lista completa
      * @param lenght   max chunk
@@ -54,7 +42,6 @@ public final class ChunkUtility {
     }
     
     /**
-     * Metodo che data una lista e una dimensione massima calcola i byte.
      * 
      * @param source   lista completa 
      * @return         long
@@ -66,7 +53,6 @@ public final class ChunkUtility {
             out.writeObject(list);
             out.close();
         } catch(Exception ex) {
-//            LOGGER.error("Errore nel calcolo della size in byte : " ,ex);
             throw new BusinessException("Errore nel calcolo della size in byte : " + ex);
         } 
         return baos.toByteArray().length;

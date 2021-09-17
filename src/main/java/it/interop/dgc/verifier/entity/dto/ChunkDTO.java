@@ -8,10 +8,6 @@ import lombok.Getter;
  
 
 
-/*
-* @author vincenzoingenito 
-* Classe per mappare le informazioni del chunk.
-*/
 @Getter 
 @AllArgsConstructor
 public class ChunkDTO implements Serializable {
@@ -27,17 +23,17 @@ public class ChunkDTO implements Serializable {
    private List<String> listChunk;
    
    /**
-    *  Size totale dei chunk.
+    *  chunk total size.
     */
    private Integer sizeTotaliDeiChunk;
    
    /**
-    *  Size totale in byte.
+    *  total size in byte.
     */
    private Long sizeTotalInByte;
    
    /**
-    *  Size totale in byte.
+    *  chunk total size in byte.
     */
    private Long sizeSingleChunkInByte;
    

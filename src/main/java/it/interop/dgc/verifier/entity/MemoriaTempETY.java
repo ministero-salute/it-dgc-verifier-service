@@ -16,7 +16,6 @@ import lombok.Setter;
  
 /**
  * @author vincenzoingenito
- * Model per il salvataggio di un ucvi revocato.
  */
 @Getter
 @Setter
@@ -29,7 +28,7 @@ public class MemoriaTempETY {
  
     
     /**
-     * Pk documento.
+     * Pk document.
      */
     @Id
     private String id;
@@ -47,19 +46,19 @@ public class MemoriaTempETY {
     private String revokedUcviSha;
     
     /**
-     * Data inserimento.
+     * insert date.
      */
     @Field(name = "dataInserimento")
     private Date dataInserimento;
 
     /**
-     * Operazione.
+     * operation.
      */
     @Field(name = "operazione")
     private String operazione;
     
     /**
-     * Flag per la cancellazione logica.
+     * flag to delete.
      */
     @Field(name = "daCancellare")
     private boolean daCancellare;

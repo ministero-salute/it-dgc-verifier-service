@@ -25,13 +25,13 @@ public class DRLDTO implements Serializable {
 	private static final long serialVersionUID = -2569851440652674636L;
 
 	/**
-	 * Lista di ucvi hashati revocati.
+	 * ucvi hashed list.
 	 */
 	@Schema(description = "Lista dei certificati revocati")
 	private SnapshotETY crl;
 	
 	/**
-	 * Delta versioni.
+	 * Delta version.
 	 */
 	@Schema(description = "Delta versioni")
 	private DeltaETY deltaVers;

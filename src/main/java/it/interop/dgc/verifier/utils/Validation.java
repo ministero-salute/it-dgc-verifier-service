@@ -9,19 +9,13 @@ import it.interop.dgc.verifier.exceptions.ValidationException;
  * 
  * @author CPIERASC
  *
- *	Validazione.
  */
 public final class Validation {
 
-	/**
-	 * Costruttore.
-	 */
 	private Validation() {
-		//Questo metodo è lasciato intenzionalmente vuoto.
 	}
     
     /**
-     * Metodo per verificare che lo sha256 in esadecimale sia valido.
      * 
      * @param sha256
      * @return 
@@ -34,7 +28,6 @@ public final class Validation {
     }
 
     /**
-	 * Metodo che valida un oggetto.
 	 * 
 	 * @param check
 	 * @param msg

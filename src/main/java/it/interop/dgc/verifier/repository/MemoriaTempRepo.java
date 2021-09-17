@@ -22,10 +22,6 @@ import it.interop.dgc.verifier.exceptions.BusinessException;
 @Repository
 public class MemoriaTempRepo {
 
-    /**
-     * Logger.
-     */
-//    private static final ALogger LOGGER = ALogger.getLogger(MemoriaTempRepo.class);
 
     /**
      * Mongo template.
@@ -41,7 +37,6 @@ public class MemoriaTempRepo {
             List<MemoriaTempETY> listOut = mongoTemplate.find(query, MemoriaTempETY.class);
             output = listOut!=null && !listOut.isEmpty() ? listOut.get(0) : null;   
         } catch (final Exception ex) {
-//            LOGGER.error("Errore durante la findByRevokedUCVI()", ex);
             throw new BusinessException("Errore durante la findByRevokedUCVI()", ex);
         }
         return output;  
@@ -51,7 +46,6 @@ public class MemoriaTempRepo {
         try {
            return mongoTemplate.save(revokedUcvi);
         } catch(Exception ex) {
-//            LOGGER.error("Errore durante il salvataggio dell'ucvi revocato", ex);
             throw new BusinessException("Errore durante il salvataggio dell'ucvi revocato", ex);
         }
         
@@ -64,7 +58,6 @@ public class MemoriaTempRepo {
             DeleteResult recordRimosso = mongoTemplate.remove(query, MemoriaTempETY.class,"memoria_temporanea");
             recordRimosso.getDeletedCount();
         } catch (final Exception ex) {
-//            LOGGER.error("Errore durante la find by fiscal code and authCode or doc id", ex);
             throw new BusinessException("Errore durante la find by fiscal code and authCode or doc id", ex);
         }
          

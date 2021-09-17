@@ -44,7 +44,6 @@ public class DrlController {
 	private DrlCFG crlCFG;
 
 	/**
-     * Metodo per ottenere la digital green certificate revocation list.
      * 
      * @param version        version
      * @param chunk          chunk
@@ -66,7 +65,6 @@ public class DrlController {
 
 	 
 	/**
-     * Metodo per la chiamata ispettiva per il download della digital green certificate revocation list.
      * 
      * @param version        version
      * @param chunk          chunk
@@ -89,7 +87,6 @@ public class DrlController {
 	private DrlResponseDTO buildOutputDrl(DRLDTO drlDTO,Integer chunk, boolean isIspettiva) {
 	    DrlResponseDTO output = null;
 
-	    //Se chunk non mi viene dato lo setto al primo elemento
 	    if(chunk==null) {
             chunk = 1;
         }
@@ -145,7 +142,6 @@ public class DrlController {
     }
 
 	/**
-     * Costruzione response dato uno snap.
      * 
      * @param drlDTO                  drlDTO
      * @param chunk                   chunk
@@ -215,7 +211,6 @@ public class DrlController {
 
 	        sizeSingleChunkByte = ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
 	    } catch(Exception ex) {
-//	        LOGGER.error("Errore nel calcolo dei chunk : ",ex);	        
 	        throw new BusinessException("Errore nel calcolo dei chunk : "+ex);
 	    }
 	     

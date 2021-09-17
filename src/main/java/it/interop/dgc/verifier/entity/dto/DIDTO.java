@@ -25,13 +25,13 @@ public class DIDTO implements Serializable {
     private static final long serialVersionUID = -4947707904604590613L;
 
     /**
-     * Lista delle insert.
+     * insert list.
      */
     @Field(name = "insertions")    
     private List<String> insertions;
 
     /**
-     * Lista delle delete.
+     * delete list.
      */
     @Field(name = "deletions")    
     private List<String> deletions;

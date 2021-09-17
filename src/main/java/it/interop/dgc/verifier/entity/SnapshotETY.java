@@ -14,9 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Model per il salvataggio di un pass.
- */
 @Getter
 @Setter
 @Document(collection = "snapshot")
@@ -28,25 +25,25 @@ public class SnapshotETY {
  
 	
 	/**
-	 * Pk documento.
+	 * Pk document.
 	 */
 	@Id
 	private String id;
 
 	/**
-	 * Versione.
+	 * version.
 	 */
 	@Field(name = "version")
 	private Long version;
 
 	/**
-	 * Lista dei pass revocati.
+	 * revoked_ucvi.
 	 */
 	@Field(name = "revoked_ucvi")
 	private List<String> revokedUcvi;
 
 	/**
-	 * Data creazione lista.
+	 * creation_date.
 	 */
 	@Field(name = "creation_date")
 	private Date creationDate;
