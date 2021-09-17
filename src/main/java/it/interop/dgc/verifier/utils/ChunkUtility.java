@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import it.interop.dgc.verifier.exceptions.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -14,7 +15,9 @@ import it.interop.dgc.verifier.exceptions.BusinessException;
  * @author vincenzoingenito
  *
  */
+@Slf4j
 public final class ChunkUtility { 
+ 
 
     private ChunkUtility() {
     }
@@ -53,6 +56,7 @@ public final class ChunkUtility {
             out.writeObject(list);
             out.close();
         } catch(Exception ex) {
+            log.error("Errore nel calcolo della size in byte : " ,ex);
             throw new BusinessException("Errore nel calcolo della size in byte : " + ex);
         } 
         return baos.toByteArray().length;
