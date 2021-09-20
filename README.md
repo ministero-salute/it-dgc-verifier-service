@@ -82,6 +82,14 @@ Once the requirements above shown are satisfied open a shell with working direct
 ```shell script
 docker-compose up --build
 ```
+
+##### Mongodb for testing
+Before running Integration test launch MongoDB
+
+```shell script
+docker-compose up mongo
+```
+
 #### Dependencies
 
 The project has been implemented in [Java 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html).
