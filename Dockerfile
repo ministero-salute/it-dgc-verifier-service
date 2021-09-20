@@ -23,9 +23,9 @@ RUN useradd \
         --home /it-dgc-verifier-service \
         --shell /bin/bash \
         dgc \
-    && chown --recursive dgc:root /it-dgc-verifier-service \   
+    && chown --recursive dgc:root /it-dgc-verifier-service \
     && chmod -R g+rwx /it-dgc-verifier-service
 USER dgc
 
 
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /it-dgc-verifier-service/app.jar --spring.config.location=file:/it-dgc-verifier-service/config/application.properties" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /it-dgc-verifier-service/app.jar --spring.config.location=classpath:/,file:/it-dgc-verifier-service/config/" ]
