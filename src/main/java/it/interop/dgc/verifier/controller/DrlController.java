@@ -1,20 +1,5 @@
 package it.interop.dgc.verifier.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,8 +17,19 @@ import it.interop.dgc.verifier.exceptions.ValidationException;
 import it.interop.dgc.verifier.service.DRLSRV;
 import it.interop.dgc.verifier.utils.ChunkUtility;
 import it.interop.dgc.verifier.utils.Validation;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/v1/dgc/drl")
@@ -41,88 +37,150 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DrlController {
 
-	@Autowired
-	private DRLSRV drlSRV;
+    @Autowired
+    private DRLSRV drlSRV;
 
-	@Autowired
-	private DrlCFG crlCFG;
+    @Autowired
+    private DrlCFG crlCFG;
 
-	/**
-     * 
+    /**
+     *
      * @param version        version
      * @param chunk          chunk
      * @return               DrlResponseDTO
      */
-	@GetMapping("")
-    @Operation(summary = "Ottieni la crl", description = "Servizio che consente di recuperare la certificate revocation list.")
-    @ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = DrlResponseDTO.class)))
-    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Lista trovata"),
-                            @ApiResponse(responseCode = "400", description = "Bad Request"),
-                            @ApiResponse(responseCode = "404", description = "Record not found"),
-                            @ApiResponse(responseCode = "500", description = "Internal Server Error") })
-	public DrlResponseDTO getDRL(final @RequestParam(required = false, name = "version") Long version, @RequestParam(required = false, name = "chunk") Integer chunk, HttpServletRequest request) {
-	    
-	    Validation.isValidVersion(version);
-	    DRLDTO drlDTO = drlSRV.getDRL(version,false); 
-	    return buildOutputDrl(drlDTO, chunk,false,version);
-	}
+    @GetMapping("")
+    @Operation(
+        summary = "Ottieni la crl",
+        description = "Servizio che consente di recuperare la certificate revocation list."
+    )
+    @ApiResponse(
+        content = @Content(
+            mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = DrlResponseDTO.class)
+        )
+    )
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", description = "Lista trovata"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(
+                responseCode = "404",
+                description = "Record not found"
+            ),
+            @ApiResponse(
+                responseCode = "500",
+                description = "Internal Server Error"
+            ),
+        }
+    )
+    public DrlResponseDTO getDRL(
+        final @RequestParam(required = false, name = "version") Long version,
+        @RequestParam(required = false, name = "chunk") Integer chunk,
+        HttpServletRequest request
+    ) {
+        Validation.isValidVersion(version);
+        DRLDTO drlDTO = drlSRV.getDRL(version, false);
+        return buildOutputDrl(drlDTO, chunk, false, version);
+    }
 
-	 
-	/**
-     * 
+    /**
+     *
      * @param version        version
      * @param chunk          chunk
      * @return               DrlResponseDTO
      */
-	@GetMapping("/check")
-    @Operation(summary = "Chiamata ispettiva per la la crl", description = "Servizio che consente di effettuare una chiamata ispettiva per la crl.")
-    @ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = DrlResponseDTO.class)))
-    @ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Lista trovata"),
-                            @ApiResponse(responseCode = "400", description = "Bad Request"),
-                            @ApiResponse(responseCode = "404", description = "Record not found"),
-                            @ApiResponse(responseCode = "500", description = "Internal Server Error") })
-	public DrlResponseDTO checkDRL(final @RequestParam(required = false, name = "version") Long version, @RequestParam(required = false, name = "chunk") Integer chunk, HttpServletRequest request) { 
+    @GetMapping("/check")
+    @Operation(
+        summary = "Chiamata ispettiva per la la crl",
+        description = "Servizio che consente di effettuare una chiamata ispettiva per la crl."
+    )
+    @ApiResponse(
+        content = @Content(
+            mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = DrlResponseDTO.class)
+        )
+    )
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200", description = "Lista trovata"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(
+                responseCode = "404",
+                description = "Record not found"
+            ),
+            @ApiResponse(
+                responseCode = "500",
+                description = "Internal Server Error"
+            ),
+        }
+    )
+    public DrlResponseDTO checkDRL(
+        final @RequestParam(required = false, name = "version") Long version,
+        @RequestParam(required = false, name = "chunk") Integer chunk,
+        HttpServletRequest request
+    ) {
+        Validation.isValidVersion(version);
+        DRLDTO drlDTO = drlSRV.getDRL(version, true);
+        return buildOutputDrl(drlDTO, chunk, true, version);
+    }
 
-	    Validation.isValidVersion(version);
-	    DRLDTO drlDTO = drlSRV.getDRL(version,true); 
-	    return buildOutputDrl(drlDTO, chunk,true,version); 
-	}
-
-	private DrlResponseDTO buildOutputDrl(DRLDTO drlDTO,Integer chunk, boolean isIspettiva, Long version) {
+    private DrlResponseDTO buildOutputDrl(
+        DRLDTO drlDTO,
+        Integer chunk,
+        boolean isIspettiva,
+        Long version
+    ) {
         DrlResponseDTO output = null;
 
-	    if(chunk==null) {
+        if (chunk == null) {
             chunk = 1;
         }
-         
-        if(drlDTO.getCrl()!=null) { 
-            output = buildOutputSnap(drlDTO, chunk, isIspettiva,version); 
-        } else if(drlDTO.getDeltaVers()!=null) {
+
+        if (drlDTO.getCrl() != null) {
+            output = buildOutputSnap(drlDTO, chunk, isIspettiva, version);
+        } else if (drlDTO.getDeltaVers() != null) {
             output = buildOutputDelta(drlDTO, chunk, isIspettiva);
         }
 
-        return output; 
+        return output;
     }
 
-	private DrlResponseDTO buildOutputDelta(DRLDTO drlDTO, Integer chunk, boolean isIspettiva) {
+    private DrlResponseDTO buildOutputDelta(
+        DRLDTO drlDTO,
+        Integer chunk,
+        boolean isIspettiva
+    ) {
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getDeltaVers().getId());
         output.setFromVersion(drlDTO.getDeltaVers().getFromVersion());
         output.setVersion(drlDTO.getDeltaVers().getToVersion());
-         
+
         List<String> totalChunk = new ArrayList<>();
         totalChunk.addAll(drlDTO.getDeltaVers().getDelta().getInsertions());
         totalChunk.addAll(drlDTO.getDeltaVers().getDelta().getDeletions());
 
-        ChunkDTO chunkDTO = getListChunk(totalChunk,chunk);
+        ChunkDTO chunkDTO = getListChunk(totalChunk, chunk);
 
         output.setChunk(chunkDTO.getSizeTotaliDeiChunk());
         List<String> insert = new ArrayList<>();
         List<String> delete = new ArrayList<>();
-        for(String singleChunk : chunkDTO.getListChunk()) {
-            if(drlDTO.getDeltaVers().getDelta().getInsertions().contains(singleChunk)){
-                insert.add(singleChunk);                
-            } else if(drlDTO.getDeltaVers().getDelta().getDeletions().contains(singleChunk)){
+        for (String singleChunk : chunkDTO.getListChunk()) {
+            if (
+                drlDTO
+                    .getDeltaVers()
+                    .getDelta()
+                    .getInsertions()
+                    .contains(singleChunk)
+            ) {
+                insert.add(singleChunk);
+            } else if (
+                drlDTO
+                    .getDeltaVers()
+                    .getDelta()
+                    .getDeletions()
+                    .contains(singleChunk)
+            ) {
                 delete.add(singleChunk);
             }
         }
@@ -130,8 +188,7 @@ public class DrlController {
         respDelt.setInsertions(insert);
         respDelt.setDeletions(delete);
 
-        
-        if(isIspettiva) {
+        if (isIspettiva) {
             output.setNumDiAdd(respDelt.getInsertions().size());
             output.setNumDiDelete(respDelt.getDeletions().size());
 
@@ -146,23 +203,26 @@ public class DrlController {
         return output;
     }
 
-	/**
-     * 
+    /**
+     *
      * @param drlDTO                  drlDTO
      * @param chunk                   chunk
      * @param isIspettiva             isIspettiva
      * @return                        DrlResponseDTO
      */
-    private DrlResponseDTO buildOutputSnap(DRLDTO drlDTO, Integer chunk, boolean isIspettiva, Long version) {
+    private DrlResponseDTO buildOutputSnap(
+        DRLDTO drlDTO,
+        Integer chunk,
+        boolean isIspettiva,
+        Long version
+    ) {
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getCrl().getId());
-        
-       
 
-        if(isIspettiva) {
+        if (isIspettiva) {
             output.setNumDiAdd(0);
-            output.setTotalSizeInByte(0L);          
-            output.setSizeSingleChunkInByte(0L); 
+            output.setTotalSizeInByte(0L);
+            output.setSizeSingleChunkInByte(0L);
             output.setVersion(drlDTO.getCrl().getVersion());
             output.setTotalChunk(0);
             output.setChunk(0);
@@ -171,72 +231,103 @@ public class DrlController {
             output.setRevokedUcvi(new ArrayList<>());
             output.setVersion(drlDTO.getCrl().getVersion());
         }
-        
-        if(version!=null) {
+
+        if (version != null) {
             output.setFromVersion(version);
-        }    
- 
+        }
+
         ChunkDTO chunkDTO = null;
-        if(drlDTO.getCrl().getRevokedUcvi()!=null && !drlDTO.getCrl().getRevokedUcvi().isEmpty()) {
-            chunkDTO = getListChunk(drlDTO.getCrl().getRevokedUcvi(),chunk); 
+        if (
+            drlDTO.getCrl().getRevokedUcvi() != null &&
+            !drlDTO.getCrl().getRevokedUcvi().isEmpty()
+        ) {
+            chunkDTO = getListChunk(drlDTO.getCrl().getRevokedUcvi(), chunk);
             output.setChunk(chunk);
 
-            if(isIspettiva) {
+            if (isIspettiva) {
                 output.setNumDiAdd(drlDTO.getCrl().getRevokedUcvi().size());
-                output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte()); 
-//                output.setVersion(drlDTO.getCrl().getVersion());
+                output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte());
+                //                output.setVersion(drlDTO.getCrl().getVersion());
                 output.setTotalChunk(chunkDTO.getSizeTotaliDeiChunk());
             } else {
                 output.setLastChunk(chunkDTO.getSizeTotaliDeiChunk());
                 output.setRevokedUcvi(chunkDTO.getListChunk());
                 output.setFirstElementInChunk(chunkDTO.getListChunk().get(0));
-                output.setLastElementInChunk(chunkDTO.getListChunk().get(chunkDTO.getListChunk().size()-1));
+                output.setLastElementInChunk(
+                    chunkDTO
+                        .getListChunk()
+                        .get(chunkDTO.getListChunk().size() - 1)
+                );
             }
-            output.setSizeSingleChunkInByte(chunkDTO.getSizeSingleChunkInByte());
-            
+            output.setSizeSingleChunkInByte(
+                chunkDTO.getSizeSingleChunkInByte()
+            );
         }
         return output;
     }
 
-	private ChunkDTO getListChunk(List<String> listCalcolaChunk,Integer chunk){
-	    List<String> chunkList = new ArrayList<>(); 
+    private ChunkDTO getListChunk(
+        List<String> listCalcolaChunk,
+        Integer chunk
+    ) {
+        List<String> chunkList = new ArrayList<>();
         Long sizeTotalInByte = 0L;
         Long sizeSingleChunkByte = 0L;
         Integer numTotaleChunk = 0;
-        
-	    Stream<List<String>> out = ChunkUtility.calcolaChunk(listCalcolaChunk, crlCFG.getNumMaxItemInChunk());
-	     
-	    try {
-	        Object[] vettChunk = out.toArray(); 
-            if(chunk > vettChunk.length || chunk<=0) {
-                throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","Chunk non esistente",null,null); 
-            }
-            
-	        List<Object> listAllChunk = Arrays.asList(vettChunk);
-	        
-	        numTotaleChunk = listAllChunk.size(); 
-	        if(chunk!=null) {
-	            for(int i=chunk; i<listAllChunk.size(); i++) {
-	                List<String> listChunk = new ArrayList<>(); 
-	                listChunk.addAll((List<String>) listAllChunk.get(i));
-	                sizeTotalInByte += ChunkUtility.getBytesFromObj(listChunk); 
-	            }
-	        } 
-   
-	        Object vettChunkSingle = vettChunk[chunk-1];
-	       
-	        chunkList.addAll((List<String>) vettChunkSingle); 
 
-	        sizeSingleChunkByte = ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
-	    } catch (DgcaBusinessRulesResponseException ex) {
-            log.error("Chunk non esistente : ",ex);            
-            throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","Chunk non esistente",null,null);
+        Stream<List<String>> out = ChunkUtility.calcolaChunk(
+            listCalcolaChunk,
+            crlCFG.getNumMaxItemInChunk()
+        );
+
+        try {
+            Object[] vettChunk = out.toArray();
+            if (chunk > vettChunk.length || chunk <= 0) {
+                throw new DgcaBusinessRulesResponseException(
+                    HttpStatus.BAD_REQUEST,
+                    "0x004",
+                    "Chunk non esistente",
+                    null,
+                    null
+                );
+            }
+
+            List<Object> listAllChunk = Arrays.asList(vettChunk);
+
+            numTotaleChunk = listAllChunk.size();
+            if (chunk != null) {
+                for (int i = chunk; i < listAllChunk.size(); i++) {
+                    List<String> listChunk = new ArrayList<>();
+                    listChunk.addAll((List<String>) listAllChunk.get(i));
+                    sizeTotalInByte += ChunkUtility.getBytesFromObj(listChunk);
+                }
+            }
+
+            Object vettChunkSingle = vettChunk[chunk - 1];
+
+            chunkList.addAll((List<String>) vettChunkSingle);
+
+            sizeSingleChunkByte =
+                ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
+        } catch (DgcaBusinessRulesResponseException ex) {
+            log.error("Chunk non esistente : ", ex);
+            throw new DgcaBusinessRulesResponseException(
+                HttpStatus.BAD_REQUEST,
+                "0x004",
+                "Chunk non esistente",
+                null,
+                null
+            );
         } catch (Exception ex) {
-	        log.error("Errore nel calcolo dei chunk : ",ex);	        
-	        throw new BusinessException("Errore nel calcolo dei chunk : "+ex);
-	    }
-	     
-	    return new ChunkDTO(chunkList,numTotaleChunk,sizeTotalInByte,sizeSingleChunkByte);
-	}
-	
+            log.error("Errore nel calcolo dei chunk : ", ex);
+            throw new BusinessException("Errore nel calcolo dei chunk : " + ex);
+        }
+
+        return new ChunkDTO(
+            chunkList,
+            numTotaleChunk,
+            sizeTotalInByte,
+            sizeSingleChunkByte
+        );
+    }
 }

@@ -1,9 +1,5 @@
 package it.interop.dgc.verifier.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
 import it.interop.dgc.verifier.entity.dto.DIDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,16 +7,18 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
 @Document(collection = "delta")
-@Data 
-@Builder 
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeltaETY {
-
 
     /**
      * Pk document.
@@ -45,6 +43,4 @@ public class DeltaETY {
      */
     @Field(name = "delta")
     private DIDTO delta;
-
-
 }

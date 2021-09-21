@@ -1,9 +1,8 @@
 package it.interop.dgc.verifier.enums;
 
 public enum OperationTypeEnum {
+    ADD("A"),
 
-    ADD("A"), 
-    
     REMOVE("R");
 
     private String type;
@@ -15,5 +14,4 @@ public enum OperationTypeEnum {
     public String getType() {
         return type;
     }
-
 }

@@ -1,13 +1,10 @@
 package it.interop.dgc.verifier.config;
 
 import java.io.Serializable;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
- 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  *  @author vincenzoingenito
@@ -17,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Component
 @EqualsAndHashCode(callSuper = false)
 @ConfigurationProperties(prefix = "drl")
-public class DrlCFG  implements Serializable {
+public class DrlCFG implements Serializable {
 
     /**
      * Serialization.
@@ -28,5 +25,4 @@ public class DrlCFG  implements Serializable {
      * Num max item in chunk.
      */
     private Integer numMaxItemInChunk;
-    
 }

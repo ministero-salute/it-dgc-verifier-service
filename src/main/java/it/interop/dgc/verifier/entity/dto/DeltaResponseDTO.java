@@ -2,13 +2,12 @@ package it.interop.dgc.verifier.entity.dto;
 
 import java.io.Serializable;
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
- 
+
 @Getter
 @Setter
 @Builder
@@ -25,11 +24,9 @@ public class DeltaResponseDTO implements Serializable {
      * Insertions.
      */
     private List<String> insertions;
-    
+
     /**
      * Insertions.
      */
-    private List<String> deletions;    
-    
-
+    private List<String> deletions;
 }
