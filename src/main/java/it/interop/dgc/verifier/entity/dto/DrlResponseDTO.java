@@ -72,12 +72,12 @@ public class DrlResponseDTO implements Serializable {
     private String lastElementInChunk;
 
     /**
-     * Numero di add.
+     * Number of add.
      */
     private Integer numDiAdd;
 
     /**
-     * Numero di delete.
+     * Number of delete.
      */
     private Integer numDiDelete;
 

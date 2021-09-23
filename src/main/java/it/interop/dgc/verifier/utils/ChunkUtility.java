@@ -20,13 +20,13 @@ public final class ChunkUtility {
 
     /**
      *
-     * @param source   lista completa
+     * @param source   full list
      * @param lenght   max chunk
      * @return         Stream<List<T>>
      */
     public static <T> Stream<List<T>> calcolaChunk(List<T> source, int length) {
         if (length <= 0) {
-            throw new BusinessException("Fornire una lunghezza > 0 ");
+            throw new BusinessException("get lenght > 0 ");
         }
 
         int size = source.size();
@@ -47,7 +47,7 @@ public final class ChunkUtility {
 
     /**
      *
-     * @param source   lista completa
+     * @param source   full list
      * @return         long
      */
     public static long getBytesFromObj(Object list) {
@@ -57,9 +57,9 @@ public final class ChunkUtility {
             out.writeObject(list);
             out.close();
         } catch (Exception ex) {
-            log.error("Errore nel calcolo della size in byte : ", ex);
+            log.error("Error in calculating the size in bytes:", ex);
             throw new BusinessException(
-                "Errore nel calcolo della size in byte : " + ex
+                "Error in calculating the size in bytes:" + ex
             );
         }
         return baos.toByteArray().length;

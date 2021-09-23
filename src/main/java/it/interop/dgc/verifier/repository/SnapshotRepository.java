@@ -70,11 +70,11 @@ public class SnapshotRepository {
             }
         } catch (final Exception ex) {
             log.error(
-                "Errore durante il recupero dello snapshot per versione",
+                "Error getting snapshot by version.",
                 ex
             );
             throw new BusinessException(
-                "Errore durante il recupero dello snapshot per versione",
+                "Error getting snapshot by version.",
                 ex
             );
         }
@@ -95,11 +95,11 @@ public class SnapshotRepository {
             output = mongoTemplate.find(query, SnapshotETY.class);
         } catch (final Exception ex) {
             log.error(
-                "Errore durante il recupero degli snapshot precedenti",
+                "Error while retrieving previous snapshots.",
                 ex
             );
             throw new BusinessException(
-                "Errore durante il recupero degli snapshot precedenti",
+                "Error while retrieving previous snapshots.",
                 ex
             );
         }
@@ -121,9 +121,9 @@ public class SnapshotRepository {
         try {
             output = mongoTemplate.save(output);
         } catch (final Exception ex) {
-            log.error("Errore durante il salvataggio di uno snapshot", ex);
+            log.error("Error saving a snapshot.", ex);
             throw new BusinessException(
-                "Errore durante il salvataggio di uno snapshot",
+                "Error saving a snapshot.",
                 ex
             );
         }
@@ -156,11 +156,11 @@ public class SnapshotRepository {
             }
         } catch (final Exception ex) {
             log.error(
-                "Errore durante il recupero dello snapshot per versione",
+                "Error getting snapshot by version.",
                 ex
             );
             throw new BusinessException(
-                "Errore durante il recupero dello snapshot per versione",
+                "Error getting snapshot by version.",
                 ex
             );
         }

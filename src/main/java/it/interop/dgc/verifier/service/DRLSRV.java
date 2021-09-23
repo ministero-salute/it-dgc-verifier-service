@@ -45,11 +45,11 @@ public class DRLSRV implements Serializable {
         
     
         if(lastSnap==null) {
-            throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","Nessuno snapshot trovato sul db",null,null);  
+            throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","No snapshot found on the db",null,null);  
         }
         
         if(version!=null && version>lastSnap) {
-            throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","Versione maggiore rispetto all'ultima snapshot disponibile",null,null);  
+            throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","Version greater than the latest available snapshot",null,null);  
         }
          
         if(lastSnap.equals(version)) {
@@ -59,7 +59,7 @@ public class DRLSRV implements Serializable {
         }
         
         if(crl==null && delta==null) {
-            throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","Nessun record snap o delta trovato, controllare i dati passati",null,null);  
+            throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","No snap or delta records found, check past data",null,null);  
         }
         
         return new DRLDTO(crl, delta);

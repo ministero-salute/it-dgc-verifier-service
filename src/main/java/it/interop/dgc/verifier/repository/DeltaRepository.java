@@ -46,11 +46,11 @@ public class DeltaRepository {
             }
         } catch (final Exception ex) {
             log.error(
-                "Errore durante il recupero del delta per coppia di versioni",
+                "Error getting delta for version pair.",
                 ex
             );
             throw new BusinessException(
-                "Errore durante il recupero del delta per coppia di versioni",
+                "Error getting delta for version pair.",
                 ex
             );
         }
@@ -62,7 +62,7 @@ public class DeltaRepository {
         try {
             Validation.mustBeTrue(
                 delta.getId() == null,
-                "Il documento non deve avere l'id valorizzato."
+                "The document must not have the id valued."
             );
 
             DeltaETY oldDelta = getByVersions(
@@ -74,9 +74,9 @@ public class DeltaRepository {
             }
             output = mongoTemplate.save(delta);
         } catch (final Exception ex) {
-            log.error("Errore durante il salvataggio di un delta", ex);
+            log.error("Error while saving a delta", ex);
             throw new BusinessException(
-                "Errore durante il salvataggio di un delta",
+                "Error while saving a delta",
                 ex
             );
         }
