@@ -44,4 +44,10 @@ public class SnapshotETY {
      */
     @Field(name = "creation_date")
     private Date creationDate;
+     
+    /**
+     * Flag revoke.
+     */
+    @Field(name = "flag_archived")
+    private Boolean flag_archived;
 }

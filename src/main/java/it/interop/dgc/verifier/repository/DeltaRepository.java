@@ -56,30 +56,5 @@ public class DeltaRepository {
         }
         return output;
     }
-
-    public DeltaETY save(final DeltaETY delta) {
-        DeltaETY output = null;
-        try {
-            Validation.mustBeTrue(
-                delta.getId() == null,
-                "The document must not have the id valued."
-            );
-
-            DeltaETY oldDelta = getByVersions(
-                delta.getFromVersion(),
-                delta.getToVersion()
-            );
-            if (oldDelta != null) {
-                delta.setId(oldDelta.getId());
-            }
-            output = mongoTemplate.save(delta);
-        } catch (final Exception ex) {
-            log.error("Error while saving a delta", ex);
-            throw new BusinessException(
-                "Error while saving a delta",
-                ex
-            );
-        }
-        return output;
-    }
+ 
 }
