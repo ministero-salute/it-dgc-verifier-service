@@ -49,8 +49,8 @@ public class SnapshotRepository {
             version = snap.getVersion();
         }
         return version;
-    }
- 
+    } 
+    
     public SnapshotETY getSnapWithoutUCVI(final Long version) {
         SnapshotETY output = null;
         try {
@@ -77,11 +77,11 @@ public class SnapshotRepository {
             }
         } catch (final Exception ex) {
             log.error(
-                "Errore durante il recupero dello snapshot per versione",
+                "Error getting snapshot by version.",
                 ex
             );
             throw new BusinessException(
-                "Errore durante il recupero dello snapshot per versione",
+                "Error getting snapshot by version.",
                 ex
             );
         }

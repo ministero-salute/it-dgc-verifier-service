@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/v1/dgc/drl")
-@Tag(name = "Servizio dei Certificati")
+@Tag(name = "Certificate service")
 @Slf4j
 public class DrlController {
 
@@ -51,8 +51,8 @@ public class DrlController {
      */
     @GetMapping("")
     @Operation(
-        summary = "Ottieni la crl",
-        description = "Servizio che consente di recuperare la certificate revocation list."
+        summary = "Get drl list",
+        description = "Service to retrive a certificate revocation list."
     )
     @ApiResponse(
         content = @Content(
@@ -62,7 +62,7 @@ public class DrlController {
     )
     @ApiResponses(
         value = {
-            @ApiResponse(responseCode = "200", description = "Lista trovata"),
+            @ApiResponse(responseCode = "200", description = "List found"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(
                 responseCode = "404",
@@ -92,8 +92,8 @@ public class DrlController {
      */
     @GetMapping("/check")
     @Operation(
-        summary = "Chiamata ispettiva per la la crl",
-        description = "Servizio che consente di effettuare una chiamata ispettiva per la crl."
+        summary = "Inspection call for drl",
+        description = "Service to let Inspection call for drl."
     )
     @ApiResponse(
         content = @Content(
@@ -103,7 +103,7 @@ public class DrlController {
     )
     @ApiResponses(
         value = {
-            @ApiResponse(responseCode = "200", description = "Lista trovata"),
+            @ApiResponse(responseCode = "200", description = "List found"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(
                 responseCode = "404",
@@ -286,7 +286,7 @@ public class DrlController {
                 throw new DgcaBusinessRulesResponseException(
                     HttpStatus.BAD_REQUEST,
                     "0x004",
-                    "Chunk non esistente",
+                    "Chunk not existing",
                     null,
                     null
                 );
@@ -310,17 +310,17 @@ public class DrlController {
             sizeSingleChunkByte =
                 ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
         } catch (DgcaBusinessRulesResponseException ex) {
-            log.error("Chunk non esistente : ", ex);
+            log.error("Chunk not existing", ex);
             throw new DgcaBusinessRulesResponseException(
                 HttpStatus.BAD_REQUEST,
                 "0x004",
-                "Chunk non esistente",
+                "Chunk not existing",
                 null,
                 null
             );
         } catch (Exception ex) {
-            log.error("Errore nel calcolo dei chunk : ", ex);
-            throw new BusinessException("Errore nel calcolo dei chunk : " + ex);
+            log.error("Error in the calculation of chunks : ", ex);
+            throw new BusinessException("Error in the calculation of chunks : " + ex);
         }
 
         return new ChunkDTO(
