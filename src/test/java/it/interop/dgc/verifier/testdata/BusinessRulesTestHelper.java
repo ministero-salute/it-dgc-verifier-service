@@ -27,6 +27,8 @@ public class BusinessRulesTestHelper {
     public static final String BR_TEST_COLLECTION = "business_rules";
     public static final String VS_TEST_COLLECTION = "valuesets";
     public static final String CL_TEST_COLLECTION = "country_list";
+    public static final String SNAPSHOT_TEST_COLLECTION = "snapshot";
+    public static final String DELTA_TEST_COLLECTION = "delta";
 
     public static final String BR_IDENTIFIER_1 = "VR-DE-1";
     public static final String BR_HASH_1 =
