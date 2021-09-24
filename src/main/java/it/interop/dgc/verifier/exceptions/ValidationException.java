@@ -8,7 +8,7 @@ package it.interop.dgc.verifier.exceptions;
 public class ValidationException extends RuntimeException {
 
     /**
-     * Seriale.
+     * Serial.
      */
     private static final long serialVersionUID = 5632725723070077498L;
 

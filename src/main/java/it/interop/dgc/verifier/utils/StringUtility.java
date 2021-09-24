@@ -12,7 +12,7 @@ public class StringUtility {
             final byte[] hash = digest.digest(oggettoDaCodificare.getBytes());
             return encodeBase64(hash);
         } catch (Exception e) {
-            throw new BusinessException("Errore in fase di calcolo SHA-256", e);
+            throw new BusinessException("Error in the SHA-256 calculation phase", e);
         }
     }
 
