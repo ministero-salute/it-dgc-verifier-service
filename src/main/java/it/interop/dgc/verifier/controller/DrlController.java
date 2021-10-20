@@ -153,6 +153,7 @@ public class DrlController {
     ) {
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getDeltaVers().getId());
+        output.setTotalNumberUCVI(drlDTO.getDeltaVers().getNumTotaleUCVI());
         output.setFromVersion(drlDTO.getDeltaVers().getFromVersion());
         output.setVersion(drlDTO.getDeltaVers().getToVersion());
 
@@ -218,7 +219,7 @@ public class DrlController {
     ) {
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getCrl().getId());
-
+        output.setTotalNumberUCVI(drlDTO.getCrl().getNumTotaleUCVI());
         if (isIspettiva) {
             output.setNumDiAdd(0);
             output.setTotalSizeInByte(0L);
@@ -246,8 +247,7 @@ public class DrlController {
 
             if (isIspettiva) {
                 output.setNumDiAdd(drlDTO.getCrl().getRevokedUcvi().size());
-                output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte());
-                //                output.setVersion(drlDTO.getCrl().getVersion());
+                output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte()); 
                 output.setTotalChunk(chunkDTO.getSizeTotaliDeiChunk());
             } else {
                 output.setLastChunk(chunkDTO.getSizeTotaliDeiChunk());

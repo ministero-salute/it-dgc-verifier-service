@@ -43,4 +43,10 @@ public class DeltaETY {
      */
     @Field(name = "delta")
     private DIDTO delta;
+    
+    /**
+     * Num totale ucvi.
+     */
+    @Field(name = "num_totale_ucvi")
+    private Integer numTotaleUCVI;
 }

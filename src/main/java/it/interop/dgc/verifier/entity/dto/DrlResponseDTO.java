@@ -95,4 +95,10 @@ public class DrlResponseDTO implements Serializable {
      * Total chunk.
      */
     private Integer totalChunk;
+    
+    /**
+     * Total number ucvi.
+     */
+    private Integer totalNumberUCVI;
+    
 }

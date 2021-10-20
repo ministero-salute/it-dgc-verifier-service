@@ -50,4 +50,10 @@ public class SnapshotETY {
      */
     @Field(name = "flag_archived")
     private Boolean flag_archived;
+    
+    /**
+     * Num totale ucvi.
+     */
+    @Field(name = "num_totale_ucvi")
+    private Integer numTotaleUCVI;
 }
