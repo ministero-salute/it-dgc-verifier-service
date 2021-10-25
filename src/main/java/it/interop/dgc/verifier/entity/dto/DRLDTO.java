@@ -1,9 +1,9 @@
 package it.interop.dgc.verifier.entity.dto;
 
+import java.io.Serializable;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.interop.dgc.verifier.entity.DeltaETY;
-import it.interop.dgc.verifier.entity.SnapshotETY;
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public class DRLDTO implements Serializable {
      * ucvi hashed list.
      */
     @Schema(description = "Lista dei certificati revocati")
-    private SnapshotETY crl;
+    private SnapshotDTO drl;
 
     /**
      * Delta version.

@@ -1,5 +1,6 @@
 package it.interop.dgc.verifier.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import it.interop.dgc.verifier.entity.SnapshotETY;
+import it.interop.dgc.verifier.entity.SnapshotEntryETY;
+import it.interop.dgc.verifier.entity.dto.SnapshotDTO;
 import it.interop.dgc.verifier.exceptions.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,12 +31,24 @@ public class SnapshotRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public SnapshotETY getLastVersionWithContent() {
-        final Query query = new Query();
+    public SnapshotDTO getLastVersionWithContent() {
+        SnapshotDTO output = new SnapshotDTO();
+        Query query = new Query();
         query.addCriteria(Criteria.where("flag_archived").is(false));
         query.with(Sort.by(Sort.Direction.DESC, "version"));
         query.limit(1);
-        return mongoTemplate.findOne(query, SnapshotETY.class);
+        SnapshotETY snap = mongoTemplate.findOne(query, SnapshotETY.class);
+        output.setSnapshot(snap);
+        query = new Query();
+        query.addCriteria(Criteria.where("version").is(snap.getVersion()));
+        List<SnapshotEntryETY> completeSnap = mongoTemplate.find(query, SnapshotEntryETY.class);
+        List<String> revokedUcvi = new ArrayList<>();
+        for(SnapshotEntryETY snapTemp : completeSnap) {
+            revokedUcvi.add(snapTemp.getRevokedUcvi());
+            
+        }
+        output.setRevokedUcvi(revokedUcvi);
+        return output;
     }
 
     public Long getLastVersion() {
@@ -51,8 +66,8 @@ public class SnapshotRepository {
         return version;
     } 
     
-    public SnapshotETY getSnapWithoutUCVI(final Long version) {
-        SnapshotETY output = null;
+    public SnapshotDTO getSnapWithoutUCVI(final Long version) {
+        SnapshotDTO output = null;
         try {
             final Query query = new Query();
             query.addCriteria(
@@ -73,7 +88,8 @@ public class SnapshotRepository {
                 SnapshotETY.class
             );
             if (!listOut.isEmpty()) {
-                output = listOut.get(0);
+                output = new SnapshotDTO();
+                output.setSnapshot(listOut.get(0));
             }
         } catch (final Exception ex) {
             log.error(

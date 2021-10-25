@@ -1,5 +1,20 @@
 package it.interop.dgc.verifier.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,23 +28,10 @@ import it.interop.dgc.verifier.entity.dto.DeltaResponseDTO;
 import it.interop.dgc.verifier.entity.dto.DrlResponseDTO;
 import it.interop.dgc.verifier.exceptions.BusinessException;
 import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
-import it.interop.dgc.verifier.exceptions.ValidationException;
 import it.interop.dgc.verifier.service.DRLSRV;
 import it.interop.dgc.verifier.utils.ChunkUtility;
 import it.interop.dgc.verifier.utils.Validation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/v1/dgc/drl")
@@ -137,7 +139,7 @@ public class DrlController {
             chunk = 1;
         }
 
-        if (drlDTO.getCrl() != null) {
+        if (drlDTO.getDrl() != null) {
             output = buildOutputSnap(drlDTO, chunk, isIspettiva, version);
         } else if (drlDTO.getDeltaVers() != null) {
             output = buildOutputDelta(drlDTO, chunk, isIspettiva);
@@ -218,19 +220,19 @@ public class DrlController {
         Long version
     ) {
         DrlResponseDTO output = new DrlResponseDTO();
-        output.setId(drlDTO.getCrl().getId());
-        output.setTotalNumberUCVI(drlDTO.getCrl().getNumTotaleUCVI());
+        output.setId(drlDTO.getDrl().getSnapshot().getId());
+        output.setTotalNumberUCVI(drlDTO.getDrl().getSnapshot().getNumTotaleUCVI());
         if (isIspettiva) {
             output.setNumDiAdd(0);
             output.setTotalSizeInByte(0L);
             output.setSizeSingleChunkInByte(0L);
-            output.setVersion(drlDTO.getCrl().getVersion());
+            output.setVersion(drlDTO.getDrl().getSnapshot().getVersion());
             output.setTotalChunk(0);
             output.setChunk(0);
         } else {
-            output.setCreationDate(drlDTO.getCrl().getCreationDate());
+            output.setCreationDate(drlDTO.getDrl().getSnapshot().getCreationDate());
             output.setRevokedUcvi(new ArrayList<>());
-            output.setVersion(drlDTO.getCrl().getVersion());
+            output.setVersion(drlDTO.getDrl().getSnapshot().getVersion());
         }
 
         if (version != null) {
@@ -239,14 +241,14 @@ public class DrlController {
 
         ChunkDTO chunkDTO = null;
         if (
-            drlDTO.getCrl().getRevokedUcvi() != null &&
-            !drlDTO.getCrl().getRevokedUcvi().isEmpty()
+            drlDTO.getDrl().getRevokedUcvi() != null &&
+            !drlDTO.getDrl().getRevokedUcvi().isEmpty()
         ) {
-            chunkDTO = getListChunk(drlDTO.getCrl().getRevokedUcvi(), chunk);
+            chunkDTO = getListChunk(drlDTO.getDrl().getRevokedUcvi(), chunk);
             output.setChunk(chunk);
 
             if (isIspettiva) {
-                output.setNumDiAdd(drlDTO.getCrl().getRevokedUcvi().size());
+                output.setNumDiAdd(drlDTO.getDrl().getRevokedUcvi().size());
                 output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte()); 
                 output.setTotalChunk(chunkDTO.getSizeTotaliDeiChunk());
             } else {

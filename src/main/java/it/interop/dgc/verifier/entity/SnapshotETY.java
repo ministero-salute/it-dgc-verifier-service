@@ -36,8 +36,8 @@ public class SnapshotETY {
     /**
      * revoked_ucvi.
      */
-    @Field(name = "revoked_ucvi")
-    private List<String> revokedUcvi;
+//    @Field(name = "revoked_ucvi")
+//    private List<String> revokedUcvi;
 
     /**
      * creation_date.

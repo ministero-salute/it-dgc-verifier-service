@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import it.interop.dgc.verifier.entity.DeltaETY;
 import it.interop.dgc.verifier.entity.SnapshotETY;
 import it.interop.dgc.verifier.entity.dto.DRLDTO;
+import it.interop.dgc.verifier.entity.dto.SnapshotDTO;
 import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
 import it.interop.dgc.verifier.repository.DeltaRepository;
 import it.interop.dgc.verifier.repository.SnapshotRepository;
@@ -39,7 +40,7 @@ public class DRLSRV implements Serializable {
     private DeltaRepository deltaRepo;
 
     public DRLDTO getDRL(Long version, boolean isIspettiva) {
-        SnapshotETY crl = null;
+        SnapshotDTO drl = null;
         Long lastSnap = snapRepo.getLastVersion();
         DeltaETY delta = deltaRepo.getByVersions(version, lastSnap);
         
@@ -53,15 +54,15 @@ public class DRLSRV implements Serializable {
         }
          
         if(lastSnap.equals(version)) {
-            crl = snapRepo.getSnapWithoutUCVI(version);
+            drl = snapRepo.getSnapWithoutUCVI(version);
         } else if (delta == null) {
-            crl = snapRepo.getLastVersionWithContent();
+            drl = snapRepo.getLastVersionWithContent();
         }
         
-        if(crl==null && delta==null) {
+        if(drl==null && delta==null) {
             throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","No snap or delta records found, check past data",null,null);  
         }
         
-        return new DRLDTO(crl, delta);
+        return new DRLDTO(drl, delta);
     }
 }
