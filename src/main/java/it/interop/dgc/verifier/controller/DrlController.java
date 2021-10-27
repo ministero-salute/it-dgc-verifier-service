@@ -309,8 +309,10 @@ public class DrlController {
 
             chunkList.addAll((List<String>) vettChunkSingle);
 
-            sizeSingleChunkByte =
-                ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
+            Long sizeSingleUcviHashed = 51L;
+            sizeSingleChunkByte = crlCFG.getNumMaxItemInChunk()*sizeSingleUcviHashed;
+//            sizeSingleChunkByte =
+//                ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
         } catch (DgcaBusinessRulesResponseException ex) {
             log.error("Chunk not existing", ex);
             throw new DgcaBusinessRulesResponseException(
