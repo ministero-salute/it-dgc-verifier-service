@@ -30,6 +30,7 @@ import it.interop.dgc.verifier.exceptions.BusinessException;
 import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
 import it.interop.dgc.verifier.service.DRLSRV;
 import it.interop.dgc.verifier.utils.ChunkUtility;
+import it.interop.dgc.verifier.utils.StringUtility;
 import it.interop.dgc.verifier.utils.Validation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -309,8 +310,10 @@ public class DrlController {
 
             chunkList.addAll((List<String>) vettChunkSingle);
 
-            sizeSingleChunkByte =
-                ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
+            Long sizeSingleUcviHashed = 51L;
+            sizeSingleChunkByte = crlCFG.getNumMaxItemInChunk()*sizeSingleUcviHashed;
+//            sizeSingleChunkByte =
+//                ChunkUtility.getBytesFromObj(sizeSingle);
         } catch (DgcaBusinessRulesResponseException ex) {
             log.error("Chunk not existing", ex);
             throw new DgcaBusinessRulesResponseException(
@@ -332,4 +335,6 @@ public class DrlController {
             sizeSingleChunkByte
         );
     }
+    
+     
 }
