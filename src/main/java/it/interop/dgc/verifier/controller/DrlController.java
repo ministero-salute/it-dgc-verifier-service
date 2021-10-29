@@ -155,10 +155,10 @@ public class DrlController {
         boolean isIspettiva
     ) {
         DrlResponseDTO output = new DrlResponseDTO();
-        output.setId(drlDTO.getDeltaVers().getId());
-        output.setTotalNumberUCVI(drlDTO.getDeltaVers().getNumTotaleUCVI());
-        output.setFromVersion(drlDTO.getDeltaVers().getFromVersion());
-        output.setVersion(drlDTO.getDeltaVers().getToVersion());
+        output.setId(drlDTO.getDeltaVers().getDeltaETY().getId());
+        output.setTotalNumberUCVI(drlDTO.getDeltaVers().getDeltaETY().getNumTotaleUCVI());
+        output.setFromVersion(drlDTO.getDeltaVers().getDeltaETY().getFromVersion());
+        output.setVersion(drlDTO.getDeltaVers().getDeltaETY().getToVersion());
 
         List<String> totalChunk = new ArrayList<>();
         totalChunk.addAll(drlDTO.getDeltaVers().getDelta().getInsertions());

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import it.interop.dgc.verifier.entity.DeltaETY;
 import it.interop.dgc.verifier.entity.SnapshotETY;
 import it.interop.dgc.verifier.entity.dto.DRLDTO;
+import it.interop.dgc.verifier.entity.dto.DeltaDTO;
 import it.interop.dgc.verifier.entity.dto.SnapshotDTO;
 import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
 import it.interop.dgc.verifier.repository.DeltaRepository;
@@ -42,7 +43,7 @@ public class DRLSRV implements Serializable {
     public DRLDTO getDRL(Long version, boolean isIspettiva) {
         SnapshotDTO drl = null;
         Long lastSnap = snapRepo.getLastVersion();
-        DeltaETY delta = deltaRepo.getByVersions(version, lastSnap);
+        DeltaDTO delta = deltaRepo.getByVersions(version, lastSnap);
         
     
         if(lastSnap==null) {
