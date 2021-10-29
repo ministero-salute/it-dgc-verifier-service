@@ -30,6 +30,7 @@ import it.interop.dgc.verifier.exceptions.BusinessException;
 import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
 import it.interop.dgc.verifier.service.DRLSRV;
 import it.interop.dgc.verifier.utils.ChunkUtility;
+import it.interop.dgc.verifier.utils.StringUtility;
 import it.interop.dgc.verifier.utils.Validation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -154,10 +155,10 @@ public class DrlController {
         boolean isIspettiva
     ) {
         DrlResponseDTO output = new DrlResponseDTO();
-        output.setId(drlDTO.getDeltaVers().getId());
-        output.setTotalNumberUCVI(drlDTO.getDeltaVers().getNumTotaleUCVI());
-        output.setFromVersion(drlDTO.getDeltaVers().getFromVersion());
-        output.setVersion(drlDTO.getDeltaVers().getToVersion());
+        output.setId(drlDTO.getDeltaVers().getDeltaETY().getId());
+        output.setTotalNumberUCVI(drlDTO.getDeltaVers().getDeltaETY().getNumTotaleUCVI());
+        output.setFromVersion(drlDTO.getDeltaVers().getDeltaETY().getFromVersion());
+        output.setVersion(drlDTO.getDeltaVers().getDeltaETY().getToVersion());
 
         List<String> totalChunk = new ArrayList<>();
         totalChunk.addAll(drlDTO.getDeltaVers().getDelta().getInsertions());
@@ -310,9 +311,7 @@ public class DrlController {
             chunkList.addAll((List<String>) vettChunkSingle);
 
             Long sizeSingleUcviHashed = 51L;
-            sizeSingleChunkByte = crlCFG.getNumMaxItemInChunk()*sizeSingleUcviHashed;
-//            sizeSingleChunkByte =
-//                ChunkUtility.getBytesFromObj(crlCFG.getNumMaxItemInChunk());
+            sizeSingleChunkByte = crlCFG.getNumMaxItemInChunk()*sizeSingleUcviHashed; 
         } catch (DgcaBusinessRulesResponseException ex) {
             log.error("Chunk not existing", ex);
             throw new DgcaBusinessRulesResponseException(
@@ -334,4 +333,6 @@ public class DrlController {
             sizeSingleChunkByte
         );
     }
+    
+     
 }

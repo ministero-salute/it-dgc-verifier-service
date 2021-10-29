@@ -38,11 +38,7 @@ public class DeltaETY {
     @Field(name = "to_version")
     private Long toVersion;
 
-    /**
-     * delta.
-     */
-    @Field(name = "delta")
-    private DIDTO delta;
+
     
     /**
      * Num totale ucvi.

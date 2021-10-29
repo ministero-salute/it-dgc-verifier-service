@@ -3,7 +3,6 @@ package it.interop.dgc.verifier.entity.dto;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.interop.dgc.verifier.entity.DeltaETY;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,5 +31,5 @@ public class DRLDTO implements Serializable {
      * Delta version.
      */
     @Schema(description = "Delta versioni")
-    private DeltaETY deltaVers;
+    private DeltaDTO deltaVers;
 }
