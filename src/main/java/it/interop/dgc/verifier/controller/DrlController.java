@@ -30,7 +30,6 @@ import it.interop.dgc.verifier.exceptions.BusinessException;
 import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
 import it.interop.dgc.verifier.service.DRLSRV;
 import it.interop.dgc.verifier.utils.ChunkUtility;
-import it.interop.dgc.verifier.utils.StringUtility;
 import it.interop.dgc.verifier.utils.Validation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,6 +81,7 @@ public class DrlController {
         @RequestParam(required = false, name = "chunk") Integer chunk,
         HttpServletRequest request
     ) {
+        log.info("Chiamata download con version :" + version + " e chunk : " + chunk);
         Validation.isValidVersion(version);
         DRLDTO drlDTO = drlSRV.getDRL(version, false);
         return buildOutputDrl(drlDTO, chunk, false, version);
@@ -123,6 +123,7 @@ public class DrlController {
         @RequestParam(required = false, name = "chunk") Integer chunk,
         HttpServletRequest request
     ) {
+        log.info("Chiamata check con version :" + version + " e chunk : " + chunk);
         Validation.isValidVersion(version);
         DRLDTO drlDTO = drlSRV.getDRL(version, true);
         return buildOutputDrl(drlDTO, chunk, true, version);
@@ -134,6 +135,7 @@ public class DrlController {
         boolean isIspettiva,
         Long version
     ) {
+        log.info("START - Build output DRL");
         DrlResponseDTO output = null;
 
         if (chunk == null) {
@@ -145,7 +147,7 @@ public class DrlController {
         } else if (drlDTO.getDeltaVers() != null) {
             output = buildOutputDelta(drlDTO, chunk, isIspettiva);
         }
-
+        log.info("END - Build output DRL");
         return output;
     }
 
@@ -154,6 +156,7 @@ public class DrlController {
         Integer chunk,
         boolean isIspettiva
     ) {
+        log.info("START - Build output DELTA");
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getDeltaVers().getDeltaETY().getId());
         output.setTotalNumberUCVI(drlDTO.getDeltaVers().getDeltaETY().getNumTotaleUCVI());
@@ -204,6 +207,7 @@ public class DrlController {
             output.setDelta(respDelt);
         }
         output.setSizeSingleChunkInByte(chunkDTO.getSizeSingleChunkInByte());
+        log.info("END - Build output DELTA");
         return output;
     }
 
@@ -220,6 +224,7 @@ public class DrlController {
         boolean isIspettiva,
         Long version
     ) {
+        log.info("START - Build output SNAP");
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getDrl().getSnapshot().getId());
         output.setTotalNumberUCVI(drlDTO.getDrl().getSnapshot().getNumTotaleUCVI());
@@ -266,6 +271,7 @@ public class DrlController {
                 chunkDTO.getSizeSingleChunkInByte()
             );
         }
+        log.info("END - Build output SNAP");
         return output;
     }
 
@@ -273,6 +279,7 @@ public class DrlController {
         List<String> listCalcolaChunk,
         Integer chunk
     ) {
+        log.info("START - Get list chunk");
         List<String> chunkList = new ArrayList<>();
         Long sizeTotalInByte = 0L;
         Long sizeSingleChunkByte = 0L;
@@ -299,10 +306,12 @@ public class DrlController {
 
             numTotaleChunk = listAllChunk.size();
             if (chunk != null) {
-                for (int i = chunk; i < listAllChunk.size(); i++) {
+                for (int i = chunk; i <= listAllChunk.size(); i++) {
                     List<String> listChunk = new ArrayList<>();
-                    listChunk.addAll((List<String>) listAllChunk.get(i));
-                    sizeTotalInByte += ChunkUtility.getBytesFromObj(listChunk);
+                    
+                    List<String> total = (List<String>)listAllChunk.get(i-1);
+                    listChunk.addAll(total); 
+                    sizeTotalInByte += total.size()*51L;
                 }
             }
 
@@ -328,6 +337,7 @@ public class DrlController {
             throw new BusinessException("Error in the calculation of chunks : " + ex);
         }
 
+        log.info("ENd - Get list chunk");
         return new ChunkDTO(
             chunkList,
             numTotaleChunk,

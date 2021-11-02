@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import it.interop.dgc.verifier.entity.DeltaETY;
-import it.interop.dgc.verifier.entity.SnapshotETY;
 import it.interop.dgc.verifier.entity.dto.DRLDTO;
 import it.interop.dgc.verifier.entity.dto.DeltaDTO;
 import it.interop.dgc.verifier.entity.dto.SnapshotDTO;
 import it.interop.dgc.verifier.exceptions.DgcaBusinessRulesResponseException;
 import it.interop.dgc.verifier.repository.DeltaRepository;
 import it.interop.dgc.verifier.repository.SnapshotRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -21,6 +20,7 @@ import it.interop.dgc.verifier.repository.SnapshotRepository;
  *
  */
 @Service
+@Slf4j
 public class DRLSRV implements Serializable {
 
     /**
@@ -45,7 +45,8 @@ public class DRLSRV implements Serializable {
         Long lastSnap = snapRepo.getLastVersion();
         DeltaDTO delta = deltaRepo.getByVersions(version, lastSnap);
         
-    
+        log.info("Last snap : " + lastSnap );
+        log.info("Delta : " + delta);
         if(lastSnap==null) {
             throw new DgcaBusinessRulesResponseException(HttpStatus.BAD_REQUEST,"0x004","No snapshot found on the db",null,null);  
         }
@@ -55,8 +56,10 @@ public class DRLSRV implements Serializable {
         }
          
         if(lastSnap.equals(version)) {
+            log.info("GET SNAP WITHOUT UCVI");
             drl = snapRepo.getSnapWithoutUCVI(version);
         } else if (delta == null) {
+            log.info("GET LAST VERSION WITH CONTENT");
             drl = snapRepo.getLastVersionWithContent();
         }
         
