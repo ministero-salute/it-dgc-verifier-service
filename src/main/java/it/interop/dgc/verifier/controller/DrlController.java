@@ -169,7 +169,7 @@ public class DrlController {
 
         ChunkDTO chunkDTO = getListChunk(totalChunk, chunk);
 
-        output.setChunk(chunkDTO.getSizeTotaliDeiChunk());
+        output.setChunk(chunk); 
         List<String> insert = new ArrayList<>();
         List<String> delete = new ArrayList<>();
         for (String singleChunk : chunkDTO.getListChunk()) {
@@ -202,7 +202,7 @@ public class DrlController {
             output.setTotalSizeInByte(chunkDTO.getSizeTotalInByte());
             output.setTotalChunk(chunkDTO.getSizeTotaliDeiChunk());
         } else {
-            output.setChunk(chunk);
+//            output.setChunk(chunk);
             output.setLastChunk(chunkDTO.getSizeTotaliDeiChunk());
             output.setDelta(respDelt);
         }
@@ -320,9 +320,7 @@ public class DrlController {
             chunkList.addAll((List<String>) vettChunkSingle);
 
             Long sizeSingleUcviHashed = 51L;
-            sizeSingleChunkByte = crlCFG.getNumMaxItemInChunk()*sizeSingleUcviHashed;
-//            sizeSingleChunkByte =
-//                ChunkUtility.getBytesFromObj(sizeSingle);
+            sizeSingleChunkByte = crlCFG.getNumMaxItemInChunk()*sizeSingleUcviHashed; 
         } catch (DgcaBusinessRulesResponseException ex) {
             log.error("Chunk not existing", ex);
             throw new DgcaBusinessRulesResponseException(
