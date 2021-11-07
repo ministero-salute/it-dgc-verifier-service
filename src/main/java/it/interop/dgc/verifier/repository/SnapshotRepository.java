@@ -82,6 +82,7 @@ public class SnapshotRepository {
             query.fields().include("version");
             query.fields().include("creation_date");
             query.fields().include("flag_archived");
+            query.fields().include("num_totale_ucvi");
 
             List<SnapshotETY> listOut = mongoTemplate.find(
                 query,

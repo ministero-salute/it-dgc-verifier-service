@@ -228,10 +228,11 @@ public class DrlController {
         DrlResponseDTO output = new DrlResponseDTO();
         output.setId(drlDTO.getDrl().getSnapshot().getId());
         output.setTotalNumberUCVI(drlDTO.getDrl().getSnapshot().getNumTotaleUCVI());
-        if (isIspettiva) {
+        if (isIspettiva) { 
             output.setNumDiAdd(0);
             output.setTotalSizeInByte(0L);
-            output.setSizeSingleChunkInByte(0L);
+            Long sizeSingleUcviHashed = 51L;
+            output.setSizeSingleChunkInByte(crlCFG.getNumMaxItemInChunk()*sizeSingleUcviHashed);
             output.setVersion(drlDTO.getDrl().getSnapshot().getVersion());
             output.setTotalChunk(0);
             output.setChunk(0);
