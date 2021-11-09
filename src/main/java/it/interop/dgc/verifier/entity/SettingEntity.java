@@ -22,7 +22,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
-@Document(collection = "settings")
+@Document(collection = "setting")
 @AllArgsConstructor
 @NoArgsConstructor
 public class SettingEntity {
