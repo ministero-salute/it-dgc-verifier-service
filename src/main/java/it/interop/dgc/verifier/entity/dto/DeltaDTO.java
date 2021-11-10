@@ -8,10 +8,13 @@ import lombok.Data;
 @Data
 public class DeltaDTO {
 
+    /**
+     * Delta ETY.
+     */
     DeltaETY deltaETY;
     
     /**
-     * delta.
+     * Delta.
      */
     @Field(name = "delta")
     private DIDTO delta;

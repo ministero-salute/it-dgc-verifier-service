@@ -1,15 +1,15 @@
 package it.interop.dgc.verifier.entity;
 
-import it.interop.dgc.verifier.entity.dto.DIDTO;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
@@ -45,4 +45,16 @@ public class DeltaETY {
      */
     @Field(name = "num_totale_ucvi")
     private Integer numTotaleUCVI;
+    
+    /**
+     * Num totale ucvi add.
+     */
+    @Field(name = "num_totale_add")
+    private Integer numTotaleAdd;
+    
+    /**
+     * Num totale ucvi remove.
+     */
+    @Field(name = "num_totale_remove")
+    private Integer numTotaleRemove;
 }

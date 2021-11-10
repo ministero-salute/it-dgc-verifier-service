@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import it.interop.dgc.verifier.config.DrlCFG;
 import it.interop.dgc.verifier.entity.SnapshotETY;
 import it.interop.dgc.verifier.entity.SnapshotEntryETY;
 import it.interop.dgc.verifier.entity.dto.SnapshotDTO;
@@ -30,8 +31,32 @@ public class SnapshotRepository {
      */
     @Autowired
     private MongoTemplate mongoTemplate;
+    
+    @Autowired
+    private DrlCFG drlCFG;
 
-    public SnapshotDTO getLastVersionWithContent() {
+//    public SnapshotDTO getLastVersionWithContent() {
+//        SnapshotDTO output = new SnapshotDTO();
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("flag_archived").is(false));
+//        query.with(Sort.by(Sort.Direction.DESC, "version"));
+//        query.limit(1);
+//        SnapshotETY snap = mongoTemplate.findOne(query, SnapshotETY.class);
+//        output.setSnapshot(snap);
+//        query = new Query();
+//        query.addCriteria(Criteria.where("version").is(snap.getVersion()));
+//        List<SnapshotEntryETY> completeSnap = mongoTemplate.find(query, SnapshotEntryETY.class);
+//        List<String> revokedUcvi = new ArrayList<>();
+//        for(SnapshotEntryETY snapTemp : completeSnap) {
+//            revokedUcvi.add(snapTemp.getRevokedUcvi());
+//            
+//        }
+//        output.setRevokedUcvi(revokedUcvi);
+//        return output;
+//    }
+    
+    
+    public SnapshotDTO getLastVersionWithContent(Long chunk) {
         SnapshotDTO output = new SnapshotDTO();
         Query query = new Query();
         query.addCriteria(Criteria.where("flag_archived").is(false));
@@ -41,6 +66,8 @@ public class SnapshotRepository {
         output.setSnapshot(snap);
         query = new Query();
         query.addCriteria(Criteria.where("version").is(snap.getVersion()));
+        query.skip((chunk-1)*drlCFG.getNumMaxItemInChunk());
+        query.limit(drlCFG.getNumMaxItemInChunk());
         List<SnapshotEntryETY> completeSnap = mongoTemplate.find(query, SnapshotEntryETY.class);
         List<String> revokedUcvi = new ArrayList<>();
         for(SnapshotEntryETY snapTemp : completeSnap) {
@@ -50,6 +77,7 @@ public class SnapshotRepository {
         output.setRevokedUcvi(revokedUcvi);
         return output;
     }
+     
 
     public Long getLastVersion() {
         Long version = null;
