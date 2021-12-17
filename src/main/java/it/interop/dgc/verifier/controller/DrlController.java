@@ -174,7 +174,11 @@ public class DrlController {
         }
 
         output.setChunk(chunk); 
-        output.setNumDiAdd(drlDTO.getDrl().getSnapshot().getNumTotaleUCVI());
+        
+        if(drlDTO.getDrl().getSnapshot().getVersion()!=version) {
+        	output.setNumDiAdd(drlDTO.getDrl().getSnapshot().getNumTotaleUCVI());
+        }
+        
 
         Double lastChunk = Math.ceil(drlDTO.getDrl().getSnapshot().getNumTotaleUCVI().floatValue()/drlCFG.getNumMaxItemInChunk().floatValue());
         output.setTotalChunk(lastChunk.intValue());  
