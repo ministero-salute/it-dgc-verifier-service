@@ -24,7 +24,7 @@
 		<maven.test.skip>false</maven.test.skip>
 		<springdoc.version>1.5.7</springdoc.version>
 		<bcpkix.version>1.68</bcpkix.version>
-		<log4j2.version>2.15.0</log4j2.version>
+		<log4j2.version>2.17.0</log4j2.version>
 	</properties>
 
 
