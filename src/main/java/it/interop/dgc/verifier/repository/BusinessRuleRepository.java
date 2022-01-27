@@ -39,7 +39,11 @@ public class BusinessRuleRepository {
         Query query = new Query();
         query.addCriteria(Criteria.where("revoked").is(false));
         query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
-        return mongoTemplate.find(query, BusinessRuleEntity.class);
+        List<BusinessRuleEntity> businessRules = mongoTemplate.find(
+            query,
+            BusinessRuleEntity.class
+        );
+        return businessRules;
     }
 
     public List<BusinessRuleEntity> findAllByCountryOrderByIdentifierAsc(
@@ -49,7 +53,11 @@ public class BusinessRuleRepository {
         query.addCriteria(Criteria.where("revoked").is(false));
         query.addCriteria(Criteria.where("country_code").is(country));
         query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
-        return mongoTemplate.find(query, BusinessRuleEntity.class);
+        List<BusinessRuleEntity> businessRules = mongoTemplate.find(
+            query,
+            BusinessRuleEntity.class
+        );
+        return businessRules;
     }
 
     public BusinessRuleEntity findOneByCountryAndHash(
@@ -61,6 +69,10 @@ public class BusinessRuleRepository {
         query.addCriteria(Criteria.where("country_code").is(country));
         query.addCriteria(Criteria.where("hash").is(hash));
         query.with(Sort.by(Sort.Direction.ASC, "identifier_name"));
-        return mongoTemplate.findOne(query, BusinessRuleEntity.class);
+        BusinessRuleEntity businessRule = mongoTemplate.findOne(
+            query,
+            BusinessRuleEntity.class
+        );
+        return businessRule;
     }
 }

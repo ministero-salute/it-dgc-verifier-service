@@ -36,6 +36,10 @@ public class CountryListRepository {
     public CountryListEntity getFirstById(Long id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("id").is(id));
-        return mongoTemplate.findOne(query, CountryListEntity.class);
+        CountryListEntity country = mongoTemplate.findOne(
+            query,
+            CountryListEntity.class
+        );
+        return country;
     }
 }
