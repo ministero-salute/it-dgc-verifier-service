@@ -72,8 +72,8 @@ public class EuDRLSRV implements Serializable {
             }
              
 
-            log.info("Last snap : " + lastSnap );
-            log.info("Delta : " + delta);
+            log.info("Last snap: {}", lastSnap );
+            log.info("Delta: {}", delta);
 
             if (delta == null) {
                 if(!isIspettiva) {
